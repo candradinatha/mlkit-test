@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package com.example.absensi.utils;
+package com.example.absensi.common;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -20,8 +20,8 @@ import android.view.View;
 
 import com.google.android.gms.vision.CameraSource;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A view which renders a series of custom graphics to be overlayed on top of an associated preview
@@ -49,10 +49,7 @@ public class GraphicOverlay extends View {
   private int previewHeight;
   private float heightScaleFactor = 1.0f;
   private int facing = CameraSource.CAMERA_FACING_BACK;
-  private Set<Graphic> graphics = new HashSet<>();
-
-//  private int mRatioWidth = 0;
-//  private int mRatioHeight = 0;
+  private final List<Graphic> graphics = new ArrayList<>();
 
   /**
    * Base class for a custom graphics object to be rendered within the graphic overlay. Subclass
@@ -138,7 +135,6 @@ public class GraphicOverlay extends View {
     synchronized (lock) {
       graphics.add(graphic);
     }
-    postInvalidate();
   }
 
   /** Removes a graphic from the overlay. */
@@ -169,8 +165,8 @@ public class GraphicOverlay extends View {
 
     synchronized (lock) {
       if ((previewWidth != 0) && (previewHeight != 0)) {
-        widthScaleFactor = (float) canvas.getWidth() / (float) previewWidth;
-        heightScaleFactor = (float) canvas.getHeight() / (float) previewHeight;
+        widthScaleFactor = (float) getWidth() / previewWidth;
+        heightScaleFactor = (float) getHeight() / previewHeight;
       }
 
       for (Graphic graphic : graphics) {
@@ -178,37 +174,4 @@ public class GraphicOverlay extends View {
       }
     }
   }
-
-//  /**
-//   * Sets the aspect ratio for this view. The size of the view will be measured based on the ratio
-//   * calculated from the parameters. Note that the actual sizes of parameters don't matter, that
-//   * is, calling setAspectRatio(2, 3) and setAspectRatio(4, 6) make the same result.
-//   *
-//   * @param width  Relative horizontal size
-//   * @param height Relative vertical size
-//   */
-//  public void setAspectRatio(int width, int height) {
-//    if (width < 0 || height < 0) {
-//      throw new IllegalArgumentException("Size cannot be negative.");
-//    }
-//    mRatioWidth = width;
-//    mRatioHeight = height;
-//    requestLayout();
-//  }
-//
-//  @Override
-//  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//    int width = MeasureSpec.getSize(widthMeasureSpec);
-//    int height = MeasureSpec.getSize(heightMeasureSpec);
-//    if (0 == mRatioWidth || 0 == mRatioHeight) {
-//      setMeasuredDimension(width, height);
-//    } else {
-//      if (width < height * mRatioWidth / mRatioHeight) {
-//        setMeasuredDimension(width, width * mRatioHeight / mRatioWidth);
-//      } else {
-//        setMeasuredDimension(height * mRatioWidth / mRatioHeight, height);
-//      }
-//    }
-//  }
 }

@@ -11,10 +11,9 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package com.example.absensi.utils;
+package com.example.absensi.common;
 
 import android.graphics.Bitmap;
-import android.media.Image;
 
 import com.google.firebase.ml.common.FirebaseMLException;
 
@@ -29,9 +28,6 @@ public interface VisionImageProcessor {
 
   /** Processes the bitmap images. */
   void process(Bitmap bitmap, GraphicOverlay graphicOverlay);
-
-  /** Processes the images. */
-  void process(Image bitmap, int rotation, GraphicOverlay graphicOverlay);
 
   /** Stops the underlying machine learning model and release resources. */
   void stop();

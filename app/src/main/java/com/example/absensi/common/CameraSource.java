@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.example.absensi.utils;
+package com.example.absensi.common;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -31,6 +31,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
 
 import com.google.android.gms.common.images.Size;
+import com.example.absensi.common.preference.PreferenceUtils;
 
 import java.io.IOException;
 import java.lang.Thread.State;
@@ -45,12 +46,17 @@ import java.util.Map;
  * displaying extra information). This receives preview frames from the camera at a specified rate,
  * sending those frames to child classes' detectors / classifiers as fast as it is able to process.
  */
+@SuppressLint("MissingPermission")
 public class CameraSource {
   @SuppressLint("InlinedApi")
   public static final int CAMERA_FACING_BACK = CameraInfo.CAMERA_FACING_BACK;
 
   @SuppressLint("InlinedApi")
   public static final int CAMERA_FACING_FRONT = CameraInfo.CAMERA_FACING_FRONT;
+
+  public static final int IMAGE_FORMAT = ImageFormat.NV21;
+  public static final int DEFAULT_REQUESTED_CAMERA_PREVIEW_WIDTH = 480;
+  public static final int DEFAULT_REQUESTED_CAMERA_PREVIEW_HEIGHT = 360;
 
   private static final String TAG = "MIDemoApp:CameraSource";
 
@@ -71,7 +77,7 @@ public class CameraSource {
 
   private Camera camera;
 
-  protected int facing = CAMERA_FACING_BACK;
+  private int facing = CAMERA_FACING_BACK;
 
   /**
    * Rotation of the device, and thus the associated preview images captured from the device. See
@@ -81,11 +87,7 @@ public class CameraSource {
 
   private Size previewSize;
 
-  // These values may be requested by the caller.  Due to hardware limitations, we may need to
-  // select close, but not exactly the same values for these.
-  private final float requestedFps = 20.0f;
-  private final int requestedPreviewWidth = 1280;
-  private final int requestedPreviewHeight = 960;
+  private final float requestedFps = 30.0f;
   private final boolean requestedAutoFocus = true;
 
   // These instances need to be held onto to avoid GC of their underlying resources.  Even though
@@ -110,7 +112,6 @@ public class CameraSource {
   private final FrameProcessingRunnable processingRunnable;
 
   private final Object processorLock = new Object();
-  // TODO(b/74400062) Re-enable the annotaion
   // @GuardedBy("processorLock")
   private VisionImageProcessor frameProcessor;
 
@@ -155,6 +156,7 @@ public class CameraSource {
    *
    * @throws IOException if the camera's preview texture or display could not be initialized
    */
+  @SuppressLint("MissingPermission")
   @RequiresPermission(Manifest.permission.CAMERA)
   public synchronized CameraSource start() throws IOException {
     if (camera != null) {
@@ -275,12 +277,21 @@ public class CameraSource {
     }
     Camera camera = Camera.open(requestedCameraId);
 
-    SizePair sizePair = selectSizePair(camera, requestedPreviewWidth, requestedPreviewHeight);
+    SizePair sizePair = PreferenceUtils.getCameraPreviewSizePair(activity, requestedCameraId);
+    if (sizePair == null) {
+      sizePair =
+          selectSizePair(
+              camera,
+              DEFAULT_REQUESTED_CAMERA_PREVIEW_WIDTH,
+              DEFAULT_REQUESTED_CAMERA_PREVIEW_HEIGHT);
+    }
+
     if (sizePair == null) {
       throw new IOException("Could not find suitable preview size.");
     }
-    Size pictureSize = sizePair.pictureSize();
-    previewSize = sizePair.previewSize();
+
+    previewSize = sizePair.preview;
+    Log.v(TAG, "Camera preview size: " + previewSize);
 
     int[] previewFpsRange = selectPreviewFpsRange(camera, requestedFps);
     if (previewFpsRange == null) {
@@ -289,14 +300,17 @@ public class CameraSource {
 
     Camera.Parameters parameters = camera.getParameters();
 
+    Size pictureSize = sizePair.picture;
     if (pictureSize != null) {
+      Log.v(TAG, "Camera picture size: " + pictureSize);
       parameters.setPictureSize(pictureSize.getWidth(), pictureSize.getHeight());
     }
     parameters.setPreviewSize(previewSize.getWidth(), previewSize.getHeight());
     parameters.setPreviewFpsRange(
         previewFpsRange[Camera.Parameters.PREVIEW_FPS_MIN_INDEX],
         previewFpsRange[Camera.Parameters.PREVIEW_FPS_MAX_INDEX]);
-    parameters.setPreviewFormat(ImageFormat.NV21);
+    // Use YV12 so that we can exercise YV12->NV21 auto-conversion logic for OCR detection
+    parameters.setPreviewFormat(IMAGE_FORMAT);
 
     setRotation(camera, parameters, requestedCameraId);
 
@@ -362,7 +376,7 @@ public class CameraSource {
    * @param desiredHeight the desired height of the camera preview frames
    * @return the selected preview and picture size pair
    */
-  private static SizePair selectSizePair(Camera camera, int desiredWidth, int desiredHeight) {
+  public static SizePair selectSizePair(Camera camera, int desiredWidth, int desiredHeight) {
     List<SizePair> validPreviewSizes = generateValidPreviewSizeList(camera);
 
     // The method for selecting the best size is to minimize the sum of the differences between
@@ -372,7 +386,7 @@ public class CameraSource {
     SizePair selectedPair = null;
     int minDiff = Integer.MAX_VALUE;
     for (SizePair sizePair : validPreviewSizes) {
-      Size size = sizePair.previewSize();
+      Size size = sizePair.preview;
       int diff =
           Math.abs(size.getWidth() - desiredWidth) + Math.abs(size.getHeight() - desiredHeight);
       if (diff < minDiff) {
@@ -390,26 +404,20 @@ public class CameraSource {
    * ratio as the preview size or the preview may end up being distorted. If the picture size is
    * null, then there is no picture size with the same aspect ratio as the preview size.
    */
-  private static class SizePair {
-    private final Size preview;
-    private Size picture;
+  public static class SizePair {
+    public final Size preview;
+    @Nullable public final Size picture;
 
     SizePair(
-        android.hardware.Camera.Size previewSize,
-        @Nullable android.hardware.Camera.Size pictureSize) {
+        Camera.Size previewSize,
+        @Nullable Camera.Size pictureSize) {
       preview = new Size(previewSize.width, previewSize.height);
-      if (pictureSize != null) {
-        picture = new Size(pictureSize.width, pictureSize.height);
-      }
+      picture = pictureSize != null ? new Size(pictureSize.width, pictureSize.height) : null;
     }
 
-    Size previewSize() {
-      return preview;
-    }
-
-    @Nullable
-    Size pictureSize() {
-      return picture;
+    public SizePair(Size previewSize, @Nullable Size pictureSize) {
+      preview = previewSize;
+      picture = pictureSize;
     }
   }
 
@@ -422,20 +430,20 @@ public class CameraSource {
    * be set to a size that is the same aspect ratio as the preview size we choose. Otherwise, the
    * preview images may be distorted on some devices.
    */
-  private static List<SizePair> generateValidPreviewSizeList(Camera camera) {
+  public static List<SizePair> generateValidPreviewSizeList(Camera camera) {
     Camera.Parameters parameters = camera.getParameters();
     List<Camera.Size> supportedPreviewSizes =
         parameters.getSupportedPreviewSizes();
     List<Camera.Size> supportedPictureSizes =
         parameters.getSupportedPictureSizes();
     List<SizePair> validPreviewSizes = new ArrayList<>();
-    for (android.hardware.Camera.Size previewSize : supportedPreviewSizes) {
+    for (Camera.Size previewSize : supportedPreviewSizes) {
       float previewAspectRatio = (float) previewSize.width / (float) previewSize.height;
 
       // By looping through the picture sizes in order, we favor the higher resolutions.
       // We choose the highest resolution in order to support taking the full resolution
       // picture later.
-      for (android.hardware.Camera.Size pictureSize : supportedPictureSizes) {
+      for (Camera.Size pictureSize : supportedPictureSizes) {
         float pictureAspectRatio = (float) pictureSize.width / (float) pictureSize.height;
         if (Math.abs(previewAspectRatio - pictureAspectRatio) < ASPECT_RATIO_TOLERANCE) {
           validPreviewSizes.add(new SizePair(previewSize, pictureSize));
@@ -449,7 +457,7 @@ public class CameraSource {
     // still account for it.
     if (validPreviewSizes.size() == 0) {
       Log.w(TAG, "No preview sizes have a corresponding same-aspect-ratio picture size");
-      for (android.hardware.Camera.Size previewSize : supportedPreviewSizes) {
+      for (Camera.Size previewSize : supportedPreviewSizes) {
         // The null picture size will let us know that we shouldn't set a picture size.
         validPreviewSizes.add(new SizePair(previewSize, null));
       }
@@ -524,7 +532,7 @@ public class CameraSource {
 
     int angle;
     int displayAngle;
-    if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+    if (cameraInfo.facing == CameraInfo.CAMERA_FACING_FRONT) {
       angle = (cameraInfo.orientation + degrees) % 360;
       displayAngle = (360 - angle) % 360; // compensate for it being mirrored
     } else { // back-facing
@@ -534,6 +542,10 @@ public class CameraSource {
 
     // This corresponds to the rotation constants.
     this.rotation = angle / 90;
+    Log.d(TAG, "Display rotation is: " + rotation);
+    Log.d(TAG, "Camera face is: " + cameraInfo.facing);
+    Log.d(TAG, "Camera rotation is: " + cameraInfo.orientation);
+    Log.d(TAG, "Rotation is: " + this.rotation);
 
     camera.setDisplayOrientation(displayAngle);
     parameters.setRotation(angle);
@@ -547,7 +559,7 @@ public class CameraSource {
    */
   @SuppressLint("InlinedApi")
   private byte[] createPreviewBuffer(Size previewSize) {
-    int bitsPerPixel = ImageFormat.getBitsPerPixel(ImageFormat.NV21);
+    int bitsPerPixel = ImageFormat.getBitsPerPixel(IMAGE_FORMAT);
     long sizeInBits = (long) previewSize.getHeight() * previewSize.getWidth() * bitsPerPixel;
     int bufferSize = (int) Math.ceil(sizeInBits / 8.0d) + 1;
 
@@ -577,7 +589,7 @@ public class CameraSource {
     }
   }
 
-  void setMachineLearningFrameProcessor(VisionImageProcessor processor) {
+  public void setMachineLearningFrameProcessor(VisionImageProcessor processor) {
     synchronized (processorLock) {
       cleanScreen();
       if (frameProcessor != null) {
@@ -715,7 +727,7 @@ public class CameraSource {
                     .build(),
                 graphicOverlay);
           }
-        } catch (Throwable t) {
+        } catch (Exception t) {
           Log.e(TAG, "Exception thrown from receiver.", t);
         } finally {
           camera.addCallbackBuffer(data.array());

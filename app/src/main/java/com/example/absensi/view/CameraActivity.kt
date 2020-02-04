@@ -1,4 +1,4 @@
-package com.example.absensi
+package com.example.absensi.view
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -14,6 +14,7 @@ import androidx.camera.core.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import com.example.absensi.R
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
@@ -43,7 +44,10 @@ class CameraActivity : AppCompatActivity(), LifecycleOwner {
             view_finder.post { startCamera() }
         } else {
             ActivityCompat.requestPermissions(
-                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
+                this,
+                REQUIRED_PERMISSIONS,
+                REQUEST_CODE_PERMISSIONS
+            )
         }
 
         // Every time the provided texture view changes, recompute layout
