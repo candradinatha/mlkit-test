@@ -36,6 +36,7 @@
     <dimen name="sp16">16sp</dimen>
     <dimen name="sp32">32sp</dimen>
     <dimen name="sp40">40sp</dimen>
+    <dimen name="sp20">20sp</dimen>
 
     <dimen name="til_radius">16dp</dimen>
 

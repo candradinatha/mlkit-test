@@ -18,7 +18,6 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setToolbar()
 
         val tab = 0
         if (supportFragmentManager.findFragmentById(R.id.main_frame_layout) == null) {
@@ -45,15 +44,32 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
         when(item.itemId) {
             R.id.menu_home -> {
                 replaceFragment(HomeFragment())
+                setMainToolBar(Constants.MENU_HOME)
             }
             R.id.menu_attendance -> {
                 replaceFragment(AttendanceFragment())
+                setMainToolBar(Constants.MENU_ATTENDANCE)
             }
             R.id.menu_account -> {
                 replaceFragment(AccountFragment())
+                setMainToolBar(Constants.MENU_ACCOUNT)
             }
         }
         return true
+    }
+
+    private fun setMainToolBar(menu: Int) {
+        when(menu) {
+            Constants.MENU_HOME -> {
+                setToolbarHome(getString(R.string.home_toolbar_title), false)
+            }
+            Constants.MENU_ATTENDANCE -> {
+                setToolbarHome(getString(R.string.attendance_toolbar_title), true)
+            }
+            Constants.MENU_ACCOUNT -> {
+                setToolbarHome(getString(R.string.account_menu_title), false)
+            }
+        }
     }
 
     private fun replaceFragment(fragment: Fragment) {

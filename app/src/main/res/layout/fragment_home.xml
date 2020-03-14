@@ -38,7 +38,7 @@
             android:layout_marginTop="@dimen/app_margin"
             android:layout_marginStart="@dimen/half_app_margin"
             android:layout_marginEnd="@dimen/half_app_margin"
-            android:background="@drawable/background_gradient_primary"
+            android:background="@drawable/background_gradient_with_radius"
             app:layout_constraintTop_toBottomOf="@id/tv_hello"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -47,13 +47,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dp24"
-                android:background="@drawable/background_gradient_primary">
+                android:background="@drawable/background_gradient_with_radius">
 
                 <TextView
                     android:id="@+id/tv_todays_attendance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/todays_attendance"
+                    android:text="20 February 2020"
                     android:textColor="@color/background"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
