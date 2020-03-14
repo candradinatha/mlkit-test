@@ -101,4 +101,14 @@
     <string name="pref_entries_automl_models_remote">Remote</string>
     <string name="pref_entries_automl_models_local">Local</string>
     <string name="pref_key_live_preview_automl_remote_model_choices" translatable="false">lparmc</string>
+    <string name="home_toolbar_title">Home</string>
+    <string name="attendance_toolbar_title">Attendance</string>
+    <string name="account_menu_title">Account</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="hello">Hello,</string>
+    <string name="todays_attendance">Today\'s Attendance</string>
+    <string name="check_in">Check In</string>
+    <string name="check_out">Check Out</string>
 </resources>

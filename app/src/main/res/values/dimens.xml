@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="half_app_margin">8dp</dimen>
+    <dimen name="app_margin">16dp</dimen>
+    <dimen name="text_field_margin_bottom">8dp</dimen>
+    <dimen name="button_padding_top_bottom">8dp</dimen>
+
+    <dimen name="small_text_size">12sp</dimen>
+    <dimen name="medium_text_size">14sp</dimen>
+    <dimen name="subtitle_text_size">16sp</dimen>
+    <dimen name="body_text_size">20sp</dimen>
+    <dimen name="large_text_size">36sp</dimen>
+
+    <dimen name="drawer_width">300dp</dimen>
+    <dimen name="logo_width">170dp</dimen>
+    <dimen name="drawer_nav_header">200dp</dimen>
+    <dimen name="admin_image_width">100dp</dimen>
+    <dimen name="catalog_image_width">125dp</dimen>
+    <dimen name="icon_width">24dp</dimen>
+    <dimen name="customer_item_image">70dp</dimen>
+    <dimen name="elevate">4dp</dimen>
+    <dimen name="chart_height">180dp</dimen>
+    <dimen name="language_flag_width">24dp</dimen>
+
+    <dimen name="dp4">4dp</dimen>
+    <dimen name="dp8">8dp</dimen>
+    <dimen name="dp16">16dp</dimen>
+    <dimen name="dp24">24dp</dimen>
+    <dimen name="dp32">32dp</dimen>
+    <dimen name="dp40">40dp</dimen>
+    <dimen name="dp48">48dp</dimen>
+    <dimen name="dp56">56dp</dimen>
+    <dimen name="dp72">72dp</dimen>
+
+    <dimen name="sp24">24sp</dimen>
+    <dimen name="sp16">16sp</dimen>
+    <dimen name="sp32">32sp</dimen>
+    <dimen name="sp40">40sp</dimen>
+
+    <dimen name="til_radius">16dp</dimen>
+
+    <dimen name="text_time_picker">50sp</dimen>
+
+    <dimen name="category_filter_height">130dp</dimen>
+
+</resources>
