@@ -1,14 +1,375 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.fragment.AccountFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/layout_action_button">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/admin_image"
+                android:layout_width="@dimen/admin_image_width"
+                android:layout_height="@dimen/admin_image_width"
+                android:layout_marginTop="@dimen/app_margin"
+                android:src="@drawable/common_full_open_on_phone"
+                app:civ_border_color="@color/divider_color"
+                app:civ_border_width="1dp"
+                app:layout_constraintBottom_toTopOf="@id/admin_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/admin_name"
+                style="@style/AppTheme.TextAppearance.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/half_app_margin"
+                android:text="John Doe"
+                app:layout_constraintBottom_toTopOf="@id/card_mail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/admin_image" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/card_mail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/half_app_margin"
+                app:layout_constraintBottom_toTopOf="@id/separator"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/admin_name">
+
+                <!--
+                section phone
+                -->
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/half_app_margin"
+                    app:layout_constraintBottom_toTopOf="@id/layout_email"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <LinearLayout
+                        android:id="@+id/layout_tv_phone"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toStartOf="@id/admin_phone_read"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/iv_icon_phone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="@dimen/half_app_margin"
+                            android:src="@drawable/icon_phone" />
+
+                        <TextView
+                            android:id="@+id/tv_admin_phone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/phone" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/admin_phone_read"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="+62 081875647837"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/layout_tv_phone"
+                        app:layout_constraintTop_toTopOf="@id/layout_tv_phone" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!--
+                section email
+                -->
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_email"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/half_app_margin"
+                    app:layout_constraintBottom_toTopOf="@id/layout_sex"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_phone">
+
+                    <LinearLayout
+                        android:id="@+id/layout_tv_email"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toStartOf="@id/admin_email_read"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/iv_icon_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="@dimen/half_app_margin"
+                            android:src="@drawable/icon_email" />
+
+                        <TextView
+                            android:id="@+id/tv_admin_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/email" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/admin_email_read"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:text="johndoe@mail.com"
+                        app:layout_constraintStart_toEndOf="@id/layout_tv_email"
+                        app:layout_constraintTop_toTopOf="@id/layout_tv_email" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <!--
+                section admin sex
+                -->
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_sex"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/half_app_margin"
+                    app:layout_constraintBottom_toTopOf="@id/layout_location"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_email">
+
+                    <LinearLayout
+                        android:id="@+id/layout_tv_sex"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toStartOf="@id/admin_sex_read"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/iv_icon_sex"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="@dimen/half_app_margin"
+                            android:src="@drawable/icon_gender" />
+
+                        <TextView
+                            android:id="@+id/tv_admin_sex"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/gender" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/admin_sex_read"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="male"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/layout_tv_sex"
+                        app:layout_constraintTop_toTopOf="@id/layout_tv_sex" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!--
+                section admin store location
+                -->
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_location"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/half_app_margin"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_sex">
+
+                    <LinearLayout
+                        android:id="@+id/layout_tv_location"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toStartOf="@id/admin_branch_location_read"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/iv_icon_location"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="@dimen/half_app_margin"
+                            android:src="@drawable/icon_location" />
+
+
+                        <TextView
+                            android:id="@+id/tv_admin_location"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/address" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/admin_branch_location_read"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="614 Field St, Detroit, MI 48214"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/layout_tv_location"
+                        app:layout_constraintTop_toTopOf="@id/layout_tv_location" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/separator"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/half_app_margin"
+                android:background="@color/color_grey_secondary"
+                android:layout_marginTop="@dimen/half_app_margin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_mail"/>
+
+            <LinearLayout
+                android:id="@+id/layout_about_us"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/app_margin"
+                android:background="?android:attr/selectableItemBackground"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/separator"
+                app:layout_constraintBottom_toTopOf="@id/layout_logout">
+
+                <!--            <ImageView-->
+                <!--                android:layout_width="wrap_content"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_gravity="center"-->
+                <!--                android:layout_marginEnd="@dimen/half_app_margin"-->
+                <!--                android:src="@drawable/icon_about_us" />-->
+
+                <!--            <TextView-->
+                <!--                android:layout_width="wrap_content"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_gravity="center"-->
+                <!--                android:textColor="@color/colorPrimary"-->
+                <!--                android:text="@string/about_toolbar_title" />-->
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_logout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="@dimen/app_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_about_us"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/half_app_margin"
+                    android:tint="@color/colorPrimary"
+                    android:src="@drawable/icon_logout" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorPrimary"
+                    android:text="@string/logout" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/layout_action_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/background"
+        android:orientation="vertical">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_training"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/app_margin"
+            android:layout_marginEnd="@dimen/app_margin"
+            android:text="Training" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/person_name_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/app_margin">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Person name"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_action_add_face"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/AppTheme.OutlinedButton"
+            android:layout_marginStart="@dimen/app_margin"
+            android:layout_marginEnd="@dimen/app_margin"
+            android:layout_marginBottom="@dimen/half_app_margin"
+            android:text="@string/button_add_sample" />
+
+    </LinearLayout>
+
+</RelativeLayout>

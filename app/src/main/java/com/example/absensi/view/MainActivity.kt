@@ -3,6 +3,7 @@ package com.example.absensi.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.preference.PreferenceManager
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import com.example.absensi.R
@@ -18,6 +19,9 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val sharePref = PreferenceManager.getDefaultSharedPreferences(this)
+        sharePref.edit().putString("key_modelFileTensorFlow", "optimized_facenet.pb").apply()
 
         val tab = 0
         if (supportFragmentManager.findFragmentById(R.id.main_frame_layout) == null) {

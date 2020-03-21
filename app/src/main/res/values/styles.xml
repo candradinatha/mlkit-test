@@ -22,6 +22,12 @@
         <item name="materialCardViewStyle">@style/AppTheme.CardView</item>
         <item name="materialButtonStyle">@style/AppTheme.UnelevatedButton</item>
     </style>
+    
+    <style name="AppTheme.FullScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
 
     <style name="AppTheme.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxBackgroundColor">@color/background</item>

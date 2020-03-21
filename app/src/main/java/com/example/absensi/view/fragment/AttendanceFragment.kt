@@ -6,9 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 
 import com.example.absensi.R
 import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.utils.ColorTemplate
 import kotlinx.android.synthetic.main.fragment_attendance.*
 
 /**
@@ -25,20 +27,21 @@ class AttendanceFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val chartData = arrayListOf<PieEntry>()
+        chartData.add(PieEntry(8f, "Absent"))
+        chartData.add(PieEntry(20f, "Present"))
+        chartData.add(PieEntry(2f, "Late"))
 
-        chartData.add(PieEntry(10f, 0f))
-        chartData.add(PieEntry(20f, 1f))
+        val chartColors = arrayListOf<Int>()
+        chartColors.add(ContextCompat.getColor(context!!, R.color.alert_text_color))
+        chartColors.add(ContextCompat.getColor(context!!, R.color.colorPrimary))
+        chartColors.add(ContextCompat.getColor(context!!, R.color.color_yellow_stamp))
 
-        val dataSet = PieDataSet(chartData, "attendance label")
-
-        val label = arrayListOf<String>()
-        label.add("attendance")
-        label.add("absent")
-
+        val dataSet = PieDataSet(chartData, "")
+        dataSet.colors = chartColors
         val pieData  = PieData(dataSet)
 
+        chart_attendance.description.isEnabled = false
         chart_attendance.data = pieData
-
     }
 
 

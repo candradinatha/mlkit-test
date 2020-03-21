@@ -109,6 +109,29 @@
 
     <string name="hello">Hello,</string>
     <string name="todays_attendance">Today\'s Attendance</string>
+    <string name="check_in_out">Check In/Out</string>
     <string name="check_in">Check In</string>
     <string name="check_out">Check Out</string>
+    <string name="monthly_attendance_desc">This chart shows your attendance on this %1$s</string>
+    <string name="absent">Absent</string>
+    <string name="late">Late</string>
+    <string name="present">Present</string>
+    <string name="name">Name</string>
+    <string name="phone">Phone</string>
+    <string name="indonesian_dial_code">+62</string>
+    <string name="email">Email</string>
+    <string name="gender">Gender</string>
+    <string name="address">Address</string>
+    <string name="change_password">Change Password</string>
+    <string name="password">Password</string>
+    <string name="logout">Logout</string>
+    <string name="button_edit">Edit</string>
+    <string name="button_add_sample">Add Face Sample</string>
+
+
+    <string name="imageReshaping">Image Reshaping with SVM</string>
+    <string name="eigenfaces">Eigenfaces with NN</string>
+    <string name="tensorflow">TensorFlow with SVM or KNN</string>
+    <string name="caffe">Caffe with SVM or KNN</string>
+
 </resources>

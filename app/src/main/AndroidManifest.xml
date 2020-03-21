@@ -23,7 +23,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".view.Main2Activity"></activity>
-        <activity android:name=".view.FaceDetectionActivity" />
+        <activity android:name=".view.FaceDetectionActivity"
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".view.CameraActivity"
             android:screenOrientation="portrait" />
@@ -32,7 +33,8 @@
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"
             android:value="face" />
 
-        <activity android:name=".view.MainActivity">
+        <activity android:name=".view.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,6 +43,8 @@
         </activity>
         <activity android:screenOrientation="landscape" android:name=".view.DetectionActivity"/>
         <activity android:screenOrientation="landscape" android:name=".view.AddPersonPreviewActivity"/>
+        <activity android:name=".view.activity.TrainingActivity"/>
+        <activity android:name=".view.activity.RecognitionActivity"/>
     </application>
 
 </manifest>

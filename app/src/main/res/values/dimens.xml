@@ -22,6 +22,7 @@
     <dimen name="chart_height">180dp</dimen>
     <dimen name="language_flag_width">24dp</dimen>
 
+    <dimen name="dp0">0dp</dimen>
     <dimen name="dp4">4dp</dimen>
     <dimen name="dp8">8dp</dimen>
     <dimen name="dp16">16dp</dimen>
@@ -43,5 +44,7 @@
     <dimen name="text_time_picker">50sp</dimen>
 
     <dimen name="category_filter_height">130dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
 
 </resources>

@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.example.absensi.R;
+import com.example.absensi.view.activity.TrainingActivity;
 
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.OpenCVLoader;
@@ -75,23 +76,13 @@ public class AddPersonPreviewActivity extends Activity implements CameraBridgeVi
         setContentView(R.layout.activity_add_person_preview);
 
         Intent intent = getIntent();
-//        folder = intent.getStringExtra("Folder");
-//        if(folder.equals("Test")){
-//            subfolder = intent.getStringExtra("Subfolder");
-//        }
+        folder = intent.getStringExtra("Folder");
+        if(folder.equals("Test")){
+            subfolder = intent.getStringExtra("Subfolder");
+        }
         name = intent.getStringExtra("Name");
         method = intent.getIntExtra("Method", 0);
         capturePressed = false;
-        if(method == MANUALLY){
-            btn_Capture = (ImageButton)findViewById(R.id.btn_Capture);
-            btn_Capture.setVisibility(View.VISIBLE);
-            btn_Capture.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    capturePressed = true;
-                }
-            });
-        }
 
         fh = new FileHelper();
         total = 0;
@@ -105,7 +96,8 @@ public class AddPersonPreviewActivity extends Activity implements CameraBridgeVi
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         front_camera = sharedPref.getBoolean("key_front_camera", true);
 
-        numberOfPictures = Integer.valueOf(sharedPref.getString("key_numberOfPictures", "100"));
+//        numberOfPictures = Integer.valueOf(sharedPref.getString("key_numberOfPictures", "100"));
+        numberOfPictures = 10;
 
         night_portrait = sharedPref.getBoolean("key_night_portrait", false);
         exposure_compensation = Integer.valueOf(sharedPref.getString("key_exposure_compensation", "50"));
@@ -145,57 +137,56 @@ public class AddPersonPreviewActivity extends Activity implements CameraBridgeVi
         Mat imgCopy = new Mat();
         imgRgba.copyTo(imgCopy);
         // Selfie / Mirror mode
-//        if(front_camera){
-        Core.flip(imgRgba,imgRgba,1);
-//        Core.rotate(imgRgba, imgRgba, Core.ROTATE_90_COUNTERCLOCKWISE);
-//        }
+        if(front_camera){
+            Core.flip(imgRgba,imgRgba,1);
+        }
 
         long time = new Date().getTime();
         if((method == MANUALLY) || (method == TIME) && (lastTime + timerDiff < time)){
             lastTime = time;
 
             // Check that only 1 face is found. Skip if any or more than 1 are found.
-//            List<Mat> images = ppF.getCroppedImage(imgCopy);
-//            if (images != null && images.size() == 1){
-//                Mat img = images.get(0);
-//                if(img != null){
-//                    Rect[] faces = ppF.getFacesForRecognition();
-//                    //Only proceed if 1 face has been detected, ignore if 0 or more than 1 face have been detected
-//                    if((faces != null) && (faces.length == 1)){
-//                        faces = MatOperation.rotateFaces(imgRgba, faces, ppF.getAngleForRecognition());
-//                        if(((method == MANUALLY) && capturePressed) || (method == TIME)){
-//                            MatName m = new MatName(name + "_" + total, img);
-//                            if (folder.equals("Test")) {
-//                                String wholeFolderPath = fh.TEST_PATH + name + "/" + subfolder;
-//                                new File(wholeFolderPath).mkdirs();
-//                                fh.saveMatToImage(m, wholeFolderPath + "/");
-//                            } else {
-//                                String wholeFolderPath = fh.TRAINING_PATH + name;
-//                                new File(wholeFolderPath).mkdirs();
-//                                fh.saveMatToImage(m, wholeFolderPath + "/");
-//                            }
-//
-//                            for(int i = 0; i<faces.length; i++){
-//                                MatOperation.drawRectangleAndLabelOnPreview(imgRgba, faces[i], String.valueOf(total), front_camera);
-//                            }
-//
-//                            total++;
-//
-//                            // Stop after numberOfPictures (settings option)
-//                            if(total >= numberOfPictures){
-//                                Intent intent = new Intent(getApplicationContext(), AddPersonActivity.class);
-//                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                                startActivity(intent);
-//                            }
-//                            capturePressed = false;
-//                        } else {
-//                            for(int i = 0; i<faces.length; i++){
-//                                MatOperation.drawRectangleOnPreview(imgRgba, faces[i], front_camera);
-//                            }
-//                        }
-//                    }
-//                }
-//            }
+            List<Mat> images = ppF.getCroppedImage(imgCopy);
+            if (images != null && images.size() == 1){
+                Mat img = images.get(0);
+                if(img != null){
+                    Rect[] faces = ppF.getFacesForRecognition();
+                    //Only proceed if 1 face has been detected, ignore if 0 or more than 1 face have been detected
+                    if((faces != null) && (faces.length == 1)){
+                        faces = MatOperation.rotateFaces(imgRgba, faces, ppF.getAngleForRecognition());
+                        if(((method == MANUALLY) && capturePressed) || (method == TIME)){
+                            MatName m = new MatName(name + "_" + total, img);
+                            if (folder.equals("Test")) {
+                                String wholeFolderPath = fh.TEST_PATH + name + "/" + subfolder;
+                                new File(wholeFolderPath).mkdirs();
+                                fh.saveMatToImage(m, wholeFolderPath + "/");
+                            } else {
+                                String wholeFolderPath = fh.TRAINING_PATH + name;
+                                new File(wholeFolderPath).mkdirs();
+                                fh.saveMatToImage(m, wholeFolderPath + "/");
+                            }
+
+                            for(int i = 0; i<faces.length; i++){
+                                MatOperation.drawRectangleAndLabelOnPreview(imgRgba, faces[i], String.valueOf(total), front_camera);
+                            }
+
+                            total++;
+
+                            // Stop after numberOfPictures (settings option)
+                            if(total >= numberOfPictures){
+                                Intent intent = new Intent(getApplicationContext(), TrainingActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }
+                            capturePressed = false;
+                        } else {
+                            for(int i = 0; i<faces.length; i++){
+                                MatOperation.drawRectangleOnPreview(imgRgba, faces[i], front_camera);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         return imgRgba;
