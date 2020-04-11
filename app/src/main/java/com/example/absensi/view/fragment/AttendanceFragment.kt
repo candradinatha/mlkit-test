@@ -10,13 +10,13 @@ import androidx.core.content.ContextCompat
 
 import com.example.absensi.R
 import com.github.mikephil.charting.data.*
-import com.github.mikephil.charting.utils.ColorTemplate
 import kotlinx.android.synthetic.main.fragment_attendance.*
+import kotlinx.android.synthetic.main.layout_toolbar_elevation_zero.*
 
 /**
  * A simple [Fragment] subclass.
  */
-class AttendanceFragment : Fragment() {
+class AttendanceFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -25,6 +25,11 @@ class AttendanceFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setToolbarHome(toolbar)
+        toolbar_title.text = getText(R.string.attendance_toolbar_title)
+        toolbar_title.setTextColor(ContextCompat.getColor(context!!, R.color.background))
+        toolbar.setBackgroundColor(ContextCompat.getColor(context!!, R.color.colorPrimary))
 
         val chartData = arrayListOf<PieEntry>()
         chartData.add(PieEntry(8f, "Absent"))

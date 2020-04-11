@@ -8,6 +8,8 @@ import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import com.example.absensi.R
 import com.example.absensi.common.Constants
+import com.example.absensi.common.GlobalClass
+import com.example.absensi.view.activity.LoginActivity
 import com.example.absensi.view.fragment.AccountFragment
 import com.example.absensi.view.fragment.AttendanceFragment
 import com.example.absensi.view.fragment.HomeFragment
@@ -48,32 +50,15 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
         when(item.itemId) {
             R.id.menu_home -> {
                 replaceFragment(HomeFragment())
-                setMainToolBar(Constants.MENU_HOME)
             }
             R.id.menu_attendance -> {
                 replaceFragment(AttendanceFragment())
-                setMainToolBar(Constants.MENU_ATTENDANCE)
             }
             R.id.menu_account -> {
                 replaceFragment(AccountFragment())
-                setMainToolBar(Constants.MENU_ACCOUNT)
             }
         }
         return true
-    }
-
-    private fun setMainToolBar(menu: Int) {
-        when(menu) {
-            Constants.MENU_HOME -> {
-                setToolbarHome(getString(R.string.home_toolbar_title), false)
-            }
-            Constants.MENU_ATTENDANCE -> {
-                setToolbarHome(getString(R.string.attendance_toolbar_title), true)
-            }
-            Constants.MENU_ACCOUNT -> {
-                setToolbarHome(getString(R.string.account_menu_title), false)
-            }
-        }
     }
 
     private fun replaceFragment(fragment: Fragment) {
@@ -100,5 +85,12 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
             //.setCustomAnimations(0, R.anim.slide_up)
             .remove(fragment)
             .commit()
+    }
+
+    fun intentLogout() {
+        intent = Intent(this, LoginActivity::class.java)
+        GlobalClass.userLoggedOut()
+        startActivity(intent)
+        finishAffinity()
     }
 }

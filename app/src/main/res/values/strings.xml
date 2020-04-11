@@ -133,5 +133,27 @@
     <string name="eigenfaces">Eigenfaces with NN</string>
     <string name="tensorflow">TensorFlow with SVM or KNN</string>
     <string name="caffe">Caffe with SVM or KNN</string>
+    <string name="error_internal_server">Internal Server Error</string>
+    <string name="error_no_internet_connection">No Internet Connection</string>
+    <string name="error_request_timeout">Request Timeout</string>
+    <string name="employee_id">Employee ID</string>
+    <string name="register">Register</string>
+    <string name="login_hint">Email or Employee ID</string>
+    <string name="login_password">Password</string>
+    <string name="login">Login</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="snackbar_dissmiss">ok</string>
+    <string name="re_password">Repeat password</string>
+    <string name="error_cannot_be_empty">%1$s cannot be empty</string>
+    <string name="error_input_must_more_than">must be at least %1$d characters</string>
+    <string name="error_password_not_match">Password not match</string>
+    <string name="todays_work_hour">Today\'s Work Hour</string>
+    <string name="people_not_attendance">%1$d people haven\'t attended</string>
+    <string name="all_attend">all employee already attended</string>
+    <string name="my_month_attendance">My %1$s\'s Attendance</string>
+    <string name="hrs">S</string>
+    <string name="now_is">Now is</string>
+    <string name="check_in_at">Checked in at %1$s</string>
+    <string name="check_out_at">Checked out at %1$s</string>
 
 </resources>

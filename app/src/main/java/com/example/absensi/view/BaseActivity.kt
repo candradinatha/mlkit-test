@@ -3,49 +3,74 @@ package com.example.absensi.view
 import android.annotation.SuppressLint
 import android.view.MenuItem
 import android.view.View
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.absensi.R
-import kotlinx.android.synthetic.main.layout_toolbar.*
+import com.example.absensi.presenter.BaseContract
+import com.google.android.material.textfield.TextInputLayout
 
 @SuppressLint("Registered")
-open class BaseActivity: AppCompatActivity() {
+open class BaseActivity: AppCompatActivity(), BaseContract.View {
 
+    var inputTextGroup = hashMapOf<EditText, TextInputLayout>()
+    var alertDialog: SweetAlertDialog? = null
 
-    fun setToolbar(title: String? = null) {
+    fun setToolbar(toolbar: Toolbar) {
         setSupportActionBar(toolbar)
         supportActionBar?.run {
             setDisplayShowHomeEnabled(true)
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowTitleEnabled(false)
-            title?.let {
-                toolbar_title?.visibility = View.VISIBLE
-                toolbar_title?.text = it
-            }
         }
     }
 
 
-    fun setToolbarHome(title: String? = null, isPrimary: Boolean) {
+    fun setToolbarHome(toolbar: Toolbar) {
         setSupportActionBar(toolbar)
         supportActionBar?.run {
             setDisplayShowHomeEnabled(false)
             setDisplayHomeAsUpEnabled(false)
             setDisplayShowTitleEnabled(false)
-            if (isPrimary) {
-                toolbar.setBackgroundColor(ContextCompat.getColor(this@BaseActivity, R.color.colorPrimary))
-                toolbar_title.setTextColor(ContextCompat.getColor(this@BaseActivity, R.color.colorOnPrimary))
-            }
-            else {
-                toolbar.setBackgroundColor(ContextCompat.getColor(this@BaseActivity, R.color.colorOnPrimary))
-                toolbar_title.setTextColor(ContextCompat.getColor(this@BaseActivity, R.color.onBackground))
-            }
-            title?.let {
-                toolbar_title?.visibility = View.VISIBLE
-                toolbar_title?.text = it
-            }
-
         }
+    }
+
+
+    fun showAlertDialog(type: Int, title: String? = null, content: String? = null, confirmTitle: String? = null, cancelTitle: String? = null, confirmListener: ((SweetAlertDialog) -> Unit)? = null, cancelListener: ((SweetAlertDialog) -> Unit)? = null, alertImage: Int? = null) {
+        alertDialog = SweetAlertDialog(this, type)
+
+        if (title != null)
+            alertDialog!!.titleText = title
+
+        if (content != null)
+            alertDialog!!.contentText = content
+
+        if (confirmTitle != null) {
+            alertDialog!!.confirmText = confirmTitle
+            alertDialog!!.setConfirmClickListener(confirmListener)
+        }
+
+        if (cancelTitle != null) {
+            alertDialog!!.cancelText = cancelTitle
+            alertDialog!!.setCancelClickListener(cancelListener)
+        }
+
+        if (alertImage != null) {
+            alertDialog!!.setCustomImage(alertImage)
+        }
+
+        alertDialog!!.show()
+
+    }
+
+    fun dismissAlertDialog() {
+        alertDialog!!.dismissWithAnimation()
+    }
+
+    fun showLoadingBar(title: String, description: String? = null) {
+        showAlertDialog(SweetAlertDialog.PROGRESS_TYPE, title , description )
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -57,4 +82,6 @@ open class BaseActivity: AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun showError(title: String, message: String?) {
+    }
 }

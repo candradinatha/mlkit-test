@@ -31,7 +31,6 @@
 
     <style name="AppTheme.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxBackgroundColor">@color/background</item>
-        <item name="hintEnabled">false</item>
         <item name="boxStrokeColor">@color/color_grey_primary</item>
         <item name="boxCornerRadiusTopStart">@dimen/til_radius</item>
         <item name="boxCornerRadiusTopEnd">@dimen/til_radius</item>

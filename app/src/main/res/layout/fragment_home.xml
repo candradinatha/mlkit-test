@@ -1,349 +1,364 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.fragment.AttendanceFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <include
+        android:id="@+id/layout_toolbar"
+        layout="@layout/layout_toolbar" />
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/half_app_margin">
+        android:layout_height="match_parent"
+        android:layout_below="@id/layout_toolbar">
 
-        <TextView
-            android:id="@+id/tv_hello"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/half_app_margin"
-            style="@style/AppTheme.TextAppearance.Subtitle"
-            android:text="@string/hello"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/half_app_margin"
-            style="@style/AppTheme.TextAppearance.Subtitle"
-            android:text="John Doe"
-            app:layout_constraintStart_toEndOf="@id/tv_hello"
-            app:layout_constraintTop_toTopOf="@id/tv_hello"/>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_todays_attendance"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/app_margin"
-            android:layout_marginStart="@dimen/half_app_margin"
-            android:layout_marginEnd="@dimen/half_app_margin"
-            app:layout_constraintBottom_toTopOf="@id/card_check_in_out"
-            android:background="@drawable/background_gradient_with_radius"
-            app:layout_constraintTop_toBottomOf="@id/tv_hello"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp24"
-                android:background="@drawable/background_gradient_with_radius">
-
-                <TextView
-                    android:id="@+id/tv_todays_attendance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="20 February 2020"
-                    android:textColor="@color/background"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_timeline_24px"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <TextView
-                    android:id="@+id/tv_attendance_person"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/background"
-                    android:layout_marginTop="@dimen/dp24"
-                    android:textSize="@dimen/sp32"
-                    android:textStyle="bold"
-                    app:layout_constraintTop_toBottomOf="@id/tv_todays_attendance"
-                    app:layout_constraintStart_toStartOf="@id/tv_todays_attendance"
-                    android:text="14/20"/>
-
-                <TextView
-                    android:id="@+id/tv_absent_person"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_attendance_person"
-                    android:text="6 people haven't attended"
-                    android:textColor="@color/background"
-                    />
-
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_check_in_out"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/app_margin"
-            android:layout_marginStart="@dimen/half_app_margin"
-            android:layout_marginEnd="@dimen/half_app_margin"
-            android:layout_marginBottom="@dimen/half_app_margin"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_todays_attendance"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/card_months_attendance">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="@dimen/half_app_margin"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_check_in_out"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    style="@style/AppTheme.MediumText"
-                    android:layout_margin="@dimen/half_app_margin"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:text="@string/check_in_out"/>
-
-                <TextView
-                    android:id="@+id/tv_work_hours"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="00:00"
-                    android:textStyle="bold"
-                    android:layout_marginTop="@dimen/app_margin"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/sp32"
-                    app:layout_constraintTop_toBottomOf="@id/tv_check_in_out"
-                    app:layout_constraintStart_toStartOf="@id/tv_check_in_out" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Hrs"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="@dimen/dp4"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_marginStart="@dimen/half_app_margin"
-                    android:textSize="@dimen/sp24"
-                    app:layout_constraintStart_toEndOf="@id/tv_work_hours"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_work_hours"/>
-
-                <TextView
-                    android:id="@+id/tv_check_in_out_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Now is 08:00 AM"
-                    android:layout_marginBottom="@dimen/half_app_margin"
-                    android:textColor="@color/color_grey_primary"
-                    app:layout_constraintTop_toBottomOf="@id/tv_work_hours"
-                    app:layout_constraintStart_toStartOf="@id/tv_work_hours"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_check_in_out"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/check_in"
-                    android:paddingStart="@dimen/dp24"
-                    android:paddingEnd="@dimen/dp24"
-                    android:layout_margin="@dimen/half_app_margin"
-                    android:background="@drawable/background_gradient_with_radius"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_months_attendance"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/card_check_in_out"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_margin="@dimen/half_app_margin">
+            android:padding="@dimen/half_app_margin">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_hello"
+                style="@style/AppTheme.TextAppearance.Subtitle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/half_app_margin">
+                android:layout_margin="@dimen/half_app_margin"
+                android:text="@string/hello"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/tv_months_attendance"
-                    android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/tv_user_name"
+                style="@style/AppTheme.TextAppearance.Subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/half_app_margin"
+                app:layout_constraintStart_toEndOf="@id/tv_hello"
+                app:layout_constraintTop_toTopOf="@id/tv_hello" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_todays_attendance"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/half_app_margin"
+                android:layout_marginTop="@dimen/app_margin"
+                android:layout_marginEnd="@dimen/half_app_margin"
+                android:background="@drawable/background_gradient_with_radius"
+                app:layout_constraintBottom_toTopOf="@id/card_check_in_out"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_hello">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_gradient_with_radius"
+                    android:padding="@dimen/dp24">
+
+                    <TextView
+                        android:id="@+id/tv_today"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/background"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_timeline_24px"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="@string/todays_attendance" />
+
+                    <TextView
+                        android:id="@+id/tv_attendance_person"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp24"
+                        android:textColor="@color/background"
+                        android:textSize="@dimen/sp32"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@id/tv_today"
+                        app:layout_constraintTop_toBottomOf="@id/tv_today" />
+
+                    <TextView
+                        android:id="@+id/tv_attended_person"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/background"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_attendance_person"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_check_in_out"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/half_app_margin"
+                android:layout_marginTop="@dimen/app_margin"
+                android:layout_marginEnd="@dimen/half_app_margin"
+                android:layout_marginBottom="@dimen/half_app_margin"
+                app:layout_constraintBottom_toTopOf="@id/card_months_attendance"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_todays_attendance">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="@dimen/half_app_margin"
-                    style="@style/AppTheme.MediumText"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:text="My February's Attendance"/>
-
-                <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/chart_months_attendance"
-                    android:layout_width="100dp"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="@dimen/app_margin"
-                    android:layout_marginBottom="@dimen/half_app_margin"
-                    app:layout_constraintTop_toBottomOf="@id/tv_months_attendance"
-                    app:layout_constraintStart_toStartOf="@id/tv_months_attendance"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintDimensionRatio="H, 1:1"/>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_present"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:layout_constraintStart_toEndOf="@id/chart_months_attendance"
-                    app:layout_constraintTop_toTopOf="@id/chart_months_attendance"
-                    app:layout_constraintBottom_toBottomOf="@id/chart_months_attendance"
-                    app:layout_constraintEnd_toStartOf="@id/layout_late"
-                    android:layout_marginStart="@dimen/app_margin"
-                    android:layout_marginEnd="@dimen/half_app_margin">
+                    android:orientation="vertical"
+                    android:layout_margin="@dimen/half_app_margin">
 
                     <TextView
-                        android:id="@+id/tv_months_present"
+                        android:id="@+id/tv_todays_work_hour"
+                        style="@style/AppTheme.MediumText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="20"
-                        android:textSize="@dimen/sp32"
-                        android:textStyle="bold"
+                        android:layout_marginTop="@dimen/half_app_margin"
+                        android:layout_marginStart="@dimen/half_app_margin"
+                        android:text="@string/todays_work_hour"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/tv_now_is"/>
+
+                    <TextView
+                        android:id="@+id/tv_now_is"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/now_is"
+                        android:textColor="@color/color_grey_primary"
+                        app:layout_constraintTop_toBottomOf="@id/tv_todays_work_hour"
+                        app:layout_constraintStart_toStartOf="@id/tv_todays_work_hour"
+                        app:layout_constraintBottom_toTopOf="@id/todays_work_hours"/>
+
+                    <TextView
+                        android:id="@+id/current_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/half_app_margin"
+                        android:format12Hour="hh:mm a"
+                        android:textColor="@color/color_grey_primary"
+                        app:layout_constraintStart_toEndOf="@id/tv_now_is"
+                        app:layout_constraintTop_toBottomOf="@id/tv_todays_work_hour" />
+
+                    <TextView
+                        android:id="@+id/todays_work_hours"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/app_margin"
                         android:textColor="@color/colorPrimary"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toTopOf="@id/tv_present"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        />
+                        android:textSize="@dimen/sp32"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@id/tv_todays_work_hour"
+                        app:layout_constraintTop_toBottomOf="@id/tv_now_is"
+                        app:layout_constraintBottom_toTopOf="@id/tv_check_in_out_time"/>
 
                     <TextView
-                        android:id="@+id/tv_present"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_months_present"
-                        android:text="@string/present"
-                        android:textColor="@color/color_grey_primary"
-                        app:layout_constraintTop_toBottomOf="@id/tv_months_present"
+                        android:layout_marginStart="@dimen/half_app_margin"
+                        android:layout_marginBottom="@dimen/dp4"
+                        android:visibility="gone"
+                        android:text="@string/hrs"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/sp24"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@id/todays_work_hours"
+                        app:layout_constraintStart_toEndOf="@id/todays_work_hours" />
+
+                    <TextView
+                        android:id="@+id/tv_check_in_out_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/half_app_margin"
+                        android:textSize="@dimen/sp12"
+                        app:layout_constraintTop_toBottomOf="@id/todays_work_hours"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                        app:layout_constraintStart_toStartOf="@id/todays_work_hours"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_check_in_out"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/half_app_margin"
+                        android:background="@drawable/background_gradient_with_radius"
+                        android:paddingStart="@dimen/dp24"
+                        android:paddingEnd="@dimen/dp24"
+                        android:text="@string/check_in"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_months_attendance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/half_app_margin"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_check_in_out">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_late"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:layout_constraintStart_toEndOf="@id/layout_present"
-                    app:layout_constraintTop_toTopOf="@id/chart_months_attendance"
-                    app:layout_constraintBottom_toBottomOf="@id/chart_months_attendance"
-                    app:layout_constraintEnd_toStartOf="@id/layout_absent"
-                    android:layout_marginStart="@dimen/half_app_margin"
-                    android:layout_marginEnd="@dimen/half_app_margin">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/half_app_margin">
 
                     <TextView
-                        android:id="@+id/tv_months_late"
+                        android:id="@+id/tv_months_attendance"
+                        style="@style/AppTheme.MediumText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="5"
-                        android:textSize="@dimen/sp32"
-                        android:textStyle="bold"
-                        android:textColor="@color/color_yellow_stamp"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toTopOf="@id/tv_late"
+                        android:layout_margin="@dimen/half_app_margin"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        />
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/tv_late"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_months_late"
-                        android:textColor="@color/color_grey_primary"
-                        android:text="@string/late"
-                        app:layout_constraintTop_toBottomOf="@id/tv_months_late"
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/chart_months_attendance"
+                        android:layout_width="100dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="@dimen/app_margin"
+                        android:layout_marginBottom="@dimen/half_app_margin"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                        app:layout_constraintDimensionRatio="H, 1:1"
+                        app:layout_constraintStart_toStartOf="@id/tv_months_attendance"
+                        app:layout_constraintTop_toBottomOf="@id/tv_months_attendance" />
 
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout_present"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="@dimen/app_margin"
+                        android:layout_marginEnd="@dimen/half_app_margin"
+                        app:layout_constraintBottom_toBottomOf="@id/chart_months_attendance"
+                        app:layout_constraintEnd_toStartOf="@id/layout_late"
+                        app:layout_constraintStart_toEndOf="@id/chart_months_attendance"
+                        app:layout_constraintTop_toTopOf="@id/chart_months_attendance">
+
+                        <TextView
+                            android:id="@+id/tv_months_present"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/sp32"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@id/tv_present"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_present"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_months_present"
+                            android:text="@string/present"
+                            android:textColor="@color/color_grey_primary"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_months_present" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout_late"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="@dimen/half_app_margin"
+                        android:layout_marginEnd="@dimen/half_app_margin"
+                        app:layout_constraintBottom_toBottomOf="@id/chart_months_attendance"
+                        app:layout_constraintEnd_toStartOf="@id/layout_absent"
+                        app:layout_constraintStart_toEndOf="@id/layout_present"
+                        app:layout_constraintTop_toTopOf="@id/chart_months_attendance">
+
+                        <TextView
+                            android:id="@+id/tv_months_late"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textColor="@color/color_yellow_stamp"
+                            android:textSize="@dimen/sp32"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@id/tv_late"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_late"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_months_late"
+                            android:text="@string/late"
+                            android:textColor="@color/color_grey_primary"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_months_late" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout_absent"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="@dimen/half_app_margin"
+                        android:layout_marginEnd="@dimen/half_app_margin"
+                        app:layout_constraintBottom_toBottomOf="@id/chart_months_attendance"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/layout_late"
+                        app:layout_constraintTop_toTopOf="@id/chart_months_attendance">
+
+                        <TextView
+                            android:id="@+id/tv_months_absent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textColor="@color/alert_text_color"
+                            android:textSize="@dimen/sp32"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@id/tv_absent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_absent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_months_absent"
+                            android:text="@string/absent"
+                            android:textColor="@color/color_grey_primary"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_months_absent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+            </com.google.android.material.card.MaterialCardView>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_absent"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:layout_constraintStart_toEndOf="@id/layout_late"
-                    app:layout_constraintTop_toTopOf="@id/chart_months_attendance"
-                    app:layout_constraintBottom_toBottomOf="@id/chart_months_attendance"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginStart="@dimen/half_app_margin"
-                    android:layout_marginEnd="@dimen/half_app_margin">
-
-                    <TextView
-                        android:id="@+id/tv_months_absent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="5"
-                        android:textSize="@dimen/sp32"
-                        android:textStyle="bold"
-                        android:textColor="@color/alert_text_color"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toTopOf="@id/tv_absent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        />
-
-                    <TextView
-                        android:id="@+id/tv_absent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_months_absent"
-                        android:textColor="@color/color_grey_primary"
-                        android:text="@string/absent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_months_absent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-</ScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</RelativeLayout>

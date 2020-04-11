@@ -10,6 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <include
+            android:id="@+id/layout_toolbar"
+            app:layout_constraintTop_toTopOf="parent"
+            layout="@layout/layout_toolbar_elevation_zero"
+            app:layout_constraintBottom_toTopOf="@id/layout_toolbar"/>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_todays_attendance"
             android:layout_width="0dp"
@@ -21,7 +27,7 @@
             android:paddingBottom="@dimen/dp24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/layout_toolbar">
 
             <TextView
                 android:id="@+id/tv_todays_date"
