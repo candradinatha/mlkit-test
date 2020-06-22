@@ -13,6 +13,7 @@ import com.example.absensi.common.CameraSource
 import com.example.absensi.common.GraphicOverlay
 import com.example.absensi.facedetection.FaceDetectionProcessor
 import kotlinx.android.synthetic.main.activity_face_detection.*
+import org.opencv.android.OpenCVLoader
 import java.io.IOException
 
 
@@ -27,7 +28,7 @@ class FaceDetectionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_face_detection)
-
+        OpenCVLoader.initDebug()
 
 
         if (allPermissionsGranted()) {

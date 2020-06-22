@@ -155,5 +155,8 @@
     <string name="now_is">Now is</string>
     <string name="check_in_at">Checked in at %1$s</string>
     <string name="check_out_at">Checked out at %1$s</string>
-
+    <string name="checking_in">Checking in…</string>
+    <string name="checking_out">Checking out…</string>
+    <string name="checking_in_successfully">Checked In Successfully</string>
+    <string name="checking_out_successfully">Checked Out Successfully</string>
 </resources>

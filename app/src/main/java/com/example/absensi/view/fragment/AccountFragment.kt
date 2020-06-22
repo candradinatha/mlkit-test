@@ -60,7 +60,7 @@ class AccountFragment : BaseFragment() {
             startActivity(Intent(context, TrainingActivity::class.java))
         }
         button_action_add_face.setOnClickListener {
-            if (isNameAlreadyUsed(FileHelper().trainingList, person_name_layout.editText?.text.toString()))
+            if (isNameAlreadyUsed(FileHelper().trainingList, userData?.employeeId?:""))
                 Toast.makeText(context, "This name is already used. Please choose another one.", Toast.LENGTH_SHORT).show()
             else
                 intentAddPerson()
@@ -72,7 +72,7 @@ class AccountFragment : BaseFragment() {
 
     private fun intentAddPerson() {
         val intent = Intent(context, AddPersonPreviewActivity::class.java)
-        intent.putExtra("Name", person_name_layout.editText?.text.toString())
+        intent.putExtra("Name", userData?.employeeId)
         intent.putExtra("Folder", "Training")
         startActivity(intent)
     }

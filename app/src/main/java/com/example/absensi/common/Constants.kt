@@ -6,6 +6,9 @@ object Constants {
     //const val DEBUG_DOMAIN = "172.20.10.3:8000"
     //oppo ip address
     const val DEBUG_DOMAIN = "192.168.43.133:8000"
+    // timedoor ip address
+//    const val DEBUG_DOMAIN = "192.168.100:8000"
+
     const val SERVER_PATH = "api"
     const val ACTIVITY_MAIN = "activity_main"
 
@@ -14,6 +17,10 @@ object Constants {
     const val MENU_ACCOUNT = 2
 
     const val SHARED_PREFERENCES = "shared_preferences"
+
+    // args
+    const val CHECK_IN = 0
+    const val CHECK_OUT = 1
 
     //Validation Types
     const val VALIDATION_EMPTY = 0
@@ -27,6 +34,10 @@ object Constants {
     const val HOME_DATE_FORMAT = "EEEE, dd MMMM yyyy"
     const val MONTH_DATE_FORMAT = "MMMM"
     const val HOUR_DATE_FORMAT = "HH:mm"
+
+    //intent vars
+    const val INTENT_ATTENDANCE_ID = "attendance_id"
+    const val INTENT_ATTENDANCE_ACTION = "attendance_action"
 
     // API
     //auth
@@ -45,4 +56,6 @@ object Constants {
     // attendance
     const val API_ACTION_ATTENDANCE = "attendance"
     const val API_ACTION_ATTENDANCE_TODAY = "today"
+    const val API_ACTION_ATTENDANCE_IN = "check-in"
+    const val API_ACTION_ATTENDANCE_OUT = "check-out"
 }

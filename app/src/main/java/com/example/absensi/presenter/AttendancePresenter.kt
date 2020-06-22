@@ -22,6 +22,28 @@ class AttendancePresenter(val view: AttendanceContract.View, val baseView: BaseC
             })
     }
 
+    override fun checkIn(id: Int?) {
+        handler.checkIn(id)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : ErrorHandler<TodayAttendanceResponse>(basePresenter) {
+                override fun onNext(t: TodayAttendanceResponse) {
+                    view.checkInResponse(t)
+                }
+            })
+    }
+
+    override fun checkOut(id: Int?) {
+        handler.checkOut(id)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : ErrorHandler<TodayAttendanceResponse>(basePresenter) {
+                override fun onNext(t: TodayAttendanceResponse) {
+                    view.checkOutResponse(t)
+                }
+            })
+    }
+
     override fun showError(title: String, message: String?) {
         baseView.showError(title, message)
     }

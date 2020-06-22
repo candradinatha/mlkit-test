@@ -11,4 +11,12 @@ class AttendanceHandler: BaseHandler() {
     fun getTodayAttendance(): Observable<TodayAttendanceResponse> {
         return service.getTodayAttendance()
     }
+
+    fun checkIn(id: Int?): Observable<TodayAttendanceResponse> {
+        return service.checkIn(id)
+    }
+
+    fun checkOut(id: Int?): Observable<TodayAttendanceResponse> {
+        return service.checkOut(id)
+    }
 }

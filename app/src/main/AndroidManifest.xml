@@ -23,6 +23,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
@@ -47,6 +48,7 @@
         <activity
             android:name=".view.activity.SplashScreenActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -57,15 +59,18 @@
         <activity
             android:name=".view.DetectionActivity"
             android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.FullScreen"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".view.AddPersonPreviewActivity"
             android:screenOrientation="landscape"
-            tools:ignore="LockedOrientationActivity" />
+            tools:ignore="LockedOrientationActivity"
+            android:theme="@style/AppTheme.FullScreen"/>
         <activity android:name=".view.activity.TrainingActivity" />
         <activity
             android:screenOrientation="landscape"
             android:name=".view.activity.RecognitionActivity"
+            android:theme="@style/AppTheme.FullScreen"
             tools:ignore="LockedOrientationActivity" />
     </application>
 

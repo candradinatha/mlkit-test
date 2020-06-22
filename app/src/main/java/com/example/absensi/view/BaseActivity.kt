@@ -9,6 +9,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.absensi.R
+import com.example.absensi.common.GlobalClass
+import com.example.absensi.common.Preferences
 import com.example.absensi.presenter.BaseContract
 import com.google.android.material.textfield.TextInputLayout
 
@@ -83,5 +85,37 @@ open class BaseActivity: AppCompatActivity(), BaseContract.View {
     }
 
     override fun showError(title: String, message: String?) {
+    }
+
+    fun showCheckInSuccessDialog() {
+        Preferences(GlobalClass.applicationContext()!!).afterCheckInSuccess = false
+        showAlertDialog(
+            SweetAlertDialog.SUCCESS_TYPE,
+            null,
+            getString(R.string.checking_in_successfully),
+            getString(R.string.dialog_ok),
+            null,
+            {
+                Preferences(GlobalClass.applicationContext()!!).afterCheckInSuccess = false
+                it.dismissWithAnimation()
+            },
+            null
+        )
+    }
+
+    fun showCheckOutSuccessDialog() {
+        Preferences(GlobalClass.applicationContext()!!).afterCheckOutSuccess = false
+        showAlertDialog(
+            SweetAlertDialog.SUCCESS_TYPE,
+            null,
+            getString(R.string.checking_out_successfully),
+            getString(R.string.dialog_ok),
+            null,
+            {
+                Preferences(GlobalClass.applicationContext()!!).afterCheckOutSuccess = false
+                it.dismissWithAnimation()
+            },
+            null
+        )
     }
 }

@@ -6,18 +6,14 @@ import android.content.SharedPreferences
 class Preferences(context: Context) {
     private var sharedPreferences: SharedPreferences
     private var editor: SharedPreferences.Editor
-    private val LOGIN_AS = "login_as"
     private val ACCESS_TOKEN = "access_token"
     private val FIRST_LAUNCH = "first_launch"
     private val USER_LOGGED_IN = "logged_in"
     private val USER_PHONE = "phone_number"
-    private val TUTORIAL_LAUNCH = "first_tutorial_launch"
     private val BUSINESS_ID = "business_id"
     private val IS_FETCH_RECYCLER_LIST = "is_fetch_recycler_list"
-    private val IS_ADDRESS_CHANGED = "is_address_changed"
-    private val LAT = "latitude"
-    private val LNG = "longitude"
-    private val ADDRESS = "address"
+    private val AFTER_CHECK_IN_SUCCESS = "after_check_in"
+    private val AFTER_CHECK_OUT_SUCCESS = "after_check_out"
 
     init {
         sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE)
@@ -29,10 +25,6 @@ class Preferences(context: Context) {
         userLoggedIn = false
     }
 
-    // true -> owner, false -> manager
-    var loginAs: Boolean
-        set(value) = editor.putBoolean(LOGIN_AS, value).apply()
-        get() = sharedPreferences.getBoolean(LOGIN_AS, false)
 
     var accessToken: String
         set(value) = editor.putString(ACCESS_TOKEN, value).apply()
@@ -41,10 +33,6 @@ class Preferences(context: Context) {
     var firstLaunch: Boolean
         set(value) = editor.putBoolean(FIRST_LAUNCH, value).apply()
         get() = sharedPreferences.getBoolean(FIRST_LAUNCH, true)
-
-    var tutorialLaunch: Boolean
-        set(value) = editor.putBoolean(TUTORIAL_LAUNCH, value).apply()
-        get() = sharedPreferences.getBoolean(TUTORIAL_LAUNCH, true)
 
     var userLoggedIn: Boolean
         set(value) = editor.putBoolean(USER_LOGGED_IN, value).apply()
@@ -66,21 +54,11 @@ class Preferences(context: Context) {
         set(value) = editor.putBoolean(IS_FETCH_RECYCLER_LIST, value).apply()
         get() = sharedPreferences.getBoolean(IS_FETCH_RECYCLER_LIST, false)
 
-    // branch menu settings
-    var isAddressChanged: Boolean
-        set(value) = editor.putBoolean(IS_ADDRESS_CHANGED, value).apply()
-        get() = sharedPreferences.getBoolean(IS_ADDRESS_CHANGED, false)
+    var afterCheckInSuccess: Boolean
+        set(value) = editor.putBoolean(AFTER_CHECK_IN_SUCCESS, value).apply()
+        get() = sharedPreferences.getBoolean(AFTER_CHECK_IN_SUCCESS, false)
 
-    var address: String
-        set(value) = editor.putString(ADDRESS, value).apply()
-        get() = sharedPreferences.getString(ADDRESS, "") ?: ""
-
-    var latitude: String
-        set(value) = editor.putString(LAT, value).apply()
-        get() = sharedPreferences.getString(LAT, "") ?: ""
-
-    var longitude: String
-        set(value) = editor.putString(LNG, value).apply()
-        get() = sharedPreferences.getString(LNG, "") ?: ""
-
+    var afterCheckOutSuccess: Boolean
+        set(value) = editor.putBoolean(AFTER_CHECK_OUT_SUCCESS, value).apply()
+        get() = sharedPreferences.getBoolean(AFTER_CHECK_OUT_SUCCESS, false)
 }

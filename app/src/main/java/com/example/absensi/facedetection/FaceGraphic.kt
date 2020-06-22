@@ -19,7 +19,8 @@ class FaceGraphic(
     overlay: GraphicOverlay,
     private val firebaseVisionFace: FirebaseVisionFace?,
     private val facing: Int,
-    private val overlayBitmap: Bitmap?
+    private val overlayBitmap: Bitmap?,
+    private val label: String
 ) :
     GraphicOverlay.Graphic(overlay) {
 
@@ -51,7 +52,8 @@ class FaceGraphic(
         val x = translateX(face.boundingBox.centerX().toFloat())
         val y = translateY(face.boundingBox.centerY().toFloat())
         canvas.drawCircle(x, y - 4 * ID_Y_OFFSET, FACE_POSITION_RADIUS, facePositionPaint)
-        canvas.drawText("id: " + face.trackingId, x + ID_X_OFFSET, y - 3 * ID_Y_OFFSET, idPaint)
+//        canvas.drawText("id: " + face.trackingId, x + ID_X_OFFSET, y - 3 * ID_Y_OFFSET, idPaint)
+        canvas.drawText("id: $label", x + ID_X_OFFSET, y - 3 * ID_Y_OFFSET, idPaint)
         canvas.drawText(
             "happiness: ${String.format("%.2f", face.smilingProbability)}",
             x + ID_X_OFFSET * 3,

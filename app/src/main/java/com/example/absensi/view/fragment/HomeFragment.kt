@@ -7,19 +7,19 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.absensi.R
-import com.example.absensi.common.Constants
-import com.example.absensi.common.Utilities
-import com.example.absensi.common.setVisibility
-import com.example.absensi.common.toTwoDigits
+import com.example.absensi.common.*
 import com.example.absensi.model.attendance.today.TodayAttendanceData
 import com.example.absensi.model.attendance.today.TodayAttendanceResponse
 import com.example.absensi.model.auth.UserDataRealm
 import com.example.absensi.presenter.AttendanceContract
 import com.example.absensi.presenter.AttendancePresenter
 import com.example.absensi.presenter.BaseContract
+import com.example.absensi.view.BaseActivity
 import com.example.absensi.view.DetectionActivity
+import com.example.absensi.view.FaceDetectionActivity
 import com.example.absensi.view.activity.RecognitionActivity
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -38,8 +38,8 @@ class HomeFragment : BaseFragment(), AttendanceContract.View, BaseContract.View 
     private val handler  = Handler()
     private val presenter = AttendancePresenter(this, this)
     private var checkInTime: Long? = null
-    private var checkedIn = false
-    private var checkedOut = false
+    private var attendanceAction = 0
+    private var attendanceId = 0
     private val runnable: Runnable = object : Runnable {
         override fun run() {
             displayWorkHourChanges()
@@ -71,7 +71,12 @@ class HomeFragment : BaseFragment(), AttendanceContract.View, BaseContract.View 
         userData = getUserData()
         initChart()
         btn_check_in_out.setOnClickListener {
-            startActivity(Intent(context, RecognitionActivity::class.java))
+            with(Intent(context, RecognitionActivity::class.java)) {
+                this.putExtra(Constants.INTENT_ATTENDANCE_ID, attendanceId)
+                this.putExtra(Constants.INTENT_ATTENDANCE_ACTION, attendanceAction)
+                startActivity(this)
+            }
+//        startActivity(Intent(context, FaceDetectionActivity::class.java))
         }
         tv_user_name.text = userData?.name
     }
@@ -83,6 +88,18 @@ class HomeFragment : BaseFragment(), AttendanceContract.View, BaseContract.View 
 
     override fun onResume() {
         super.onResume()
+        val preferences = Preferences(GlobalClass.applicationContext()!!)
+
+        if (preferences.afterCheckInSuccess) {
+            preferences.afterCheckInSuccess = false
+            (activity as BaseActivity).showCheckInSuccessDialog()
+        }
+
+        if (preferences.afterCheckOutSuccess) {
+            preferences.afterCheckOutSuccess = false
+            (activity as BaseActivity).showCheckOutSuccessDialog()
+        }
+
         getTodayAttendance()
     }
 
@@ -96,7 +113,11 @@ class HomeFragment : BaseFragment(), AttendanceContract.View, BaseContract.View 
     override fun showError(title: String, message: String?) {
         isLoading(false)
         super.showError(title, message)
+        showToast( message?: title)
     }
+
+    override fun checkInResponse(response: TodayAttendanceResponse) = Unit
+    override fun checkOutResponse(response: TodayAttendanceResponse) = Unit
 
     private fun initChart() {
         val present = 8
@@ -136,22 +157,21 @@ class HomeFragment : BaseFragment(), AttendanceContract.View, BaseContract.View 
 
     private fun updateTodayAttendance(data: TodayAttendanceData?) {
         data.let {
+            attendanceId = it?.id ?:0
             val allAttendance = it?.allAttendance ?:0
             val allAbsent = it?.allAbsent ?: 0
             val month = Utilities.changeDateFormat(it?.createdAt, Constants.API_DATE_FORMAT, Constants.MONTH_DATE_FORMAT, context!!)
             handler.postDelayed(currentTimeRunnable, 1000)
 
-            if (it?.checkInAt!==null && it.checkOutAt == null) {
-                checkedIn = true
-                checkedOut = false
+            if (it?.checkInAt != null && it.checkOutAt == null) {
+                attendanceAction = Constants.CHECK_OUT
                 tv_check_in_out_time.setVisibility(true)
                 btn_check_in_out.text = getString(R.string.check_out)
                 tv_check_in_out_time.text = getString(R.string.check_in_at, Utilities.changeDateFormat(it.checkInAt, Constants.API_DATE_FORMAT, Constants.HOUR_DATE_FORMAT, context!!))
                 checkInTime = Utilities.stringToDate(it.checkInAt, Constants.API_DATE_FORMAT, context!!)!!.time
                 handler.postDelayed(runnable, 1000)
-            } else if (it?.checkOutAt!=null) {
-                checkedOut = true
-                checkedIn = true
+            } else if (it?.checkOutAt != null) {
+                attendanceAction = 99
                 tv_check_in_out_time.setVisibility(true)
                 btn_check_in_out.setVisibility(false)
                 tv_check_in_out_time.text = getString(R.string.check_out_at, Utilities.changeDateFormat(it.checkOutAt, Constants.API_DATE_FORMAT, Constants.HOUR_DATE_FORMAT, context!!))
@@ -163,8 +183,7 @@ class HomeFragment : BaseFragment(), AttendanceContract.View, BaseContract.View 
                 val seconds = TimeUnit.MILLISECONDS.toSeconds(workHours)
                 todays_work_hours.text = "${hours.toTwoDigits()}:${(minutes-hours*60).toTwoDigits()}:${(seconds-minutes*60).toTwoDigits()}"
             } else {
-                checkedIn = false
-                checkedOut = false
+                attendanceAction = Constants.CHECK_IN
                 tv_check_in_out_time.setVisibility(false)
                 todays_work_hours.text = "00:00:00"
             }

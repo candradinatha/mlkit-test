@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class TodayAttendanceData(
 
+	@field:SerializedName("id")
+	val id: Int? = null,
+
 	@field:SerializedName("check_out_at")
 	val checkOutAt: String? = null,
 

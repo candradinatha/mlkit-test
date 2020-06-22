@@ -38,7 +38,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:text="Tuesday, 20 February 2020"
                 android:textAlignment="center"/>
 
             <TextView
@@ -51,7 +50,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_todays_date"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:text="21:30"
                 android:textAlignment="center"/>
 
             <com.google.android.material.card.MaterialCardView
@@ -209,13 +207,14 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:padding="@dimen/half_app_margin"
                         android:orientation="horizontal"
                         android:weightSum="9">
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:padding="@dimen/app_margin"
+                            android:padding="@dimen/half_app_margin"
                             android:layout_weight="3"
                             android:orientation="vertical">
 
@@ -227,20 +226,20 @@
                                 android:text="Checked in time"/>
 
                             <TextView
+                                android:id="@+id/todays_check_in_time"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textAlignment="center"
                                 android:textStyle="bold"
                                 android:textColor="@color/background"
-                                android:textSize="@dimen/sp20"
-                                android:text="09:00"/>
+                                android:textSize="@dimen/sp20"/>
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:padding="@dimen/app_margin"
+                            android:padding="@dimen/half_app_margin"
                             android:layout_weight="3"
                             android:orientation="vertical">
 
@@ -252,20 +251,20 @@
                                 android:text="Checked out time"/>
 
                             <TextView
+                                android:id="@+id/todays_check_out_time"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textAlignment="center"
                                 android:textStyle="bold"
                                 android:textColor="@color/background"
-                                android:textSize="@dimen/sp20"
-                                android:text="17:00"/>
+                                android:textSize="@dimen/sp20"/>
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:padding="@dimen/app_margin"
+                            android:padding="@dimen/half_app_margin"
                             android:layout_weight="3"
                             android:orientation="vertical">
 
@@ -277,13 +276,13 @@
                                 android:text="Total work hours"/>
 
                             <TextView
+                                android:id="@+id/todays_work_hours"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textAlignment="center"
                                 android:textStyle="bold"
                                 android:textColor="@color/background"
-                                android:textSize="@dimen/sp20"
-                                android:text="8 Hrs"/>
+                                android:textSize="@dimen/sp20"/>
 
                         </LinearLayout>
                     </LinearLayout>
@@ -309,7 +308,7 @@
                         android:id="@+id/tv_months_attendance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="February's Attendance"
+                        android:text="April's Attendance"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         style="@style/AppTheme.TextAppearance.Body1"/>
