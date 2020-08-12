@@ -13,7 +13,6 @@
 // limitations under the License.
 package com.example.absensi.common;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.util.AttributeSet;
@@ -22,7 +21,6 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.ViewGroup;
 
-import com.example.absensi.common.preference.PreferenceUtils;
 import com.google.android.gms.common.images.Size;
 
 import java.io.IOException;
@@ -31,8 +29,8 @@ import java.io.IOException;
 public class CameraSourcePreview extends ViewGroup {
   private static final String TAG = "MIDemoApp:Preview";
 
-  private final Context context;
-  private final SurfaceView surfaceView;
+  private Context context;
+  private SurfaceView surfaceView;
   private boolean startRequested;
   private boolean surfaceAvailable;
   private CameraSource cameraSource;
@@ -50,7 +48,7 @@ public class CameraSourcePreview extends ViewGroup {
     addView(surfaceView);
   }
 
-  private void start(CameraSource cameraSource) throws IOException {
+  public void start(CameraSource cameraSource) throws IOException {
     if (cameraSource == null) {
       stop();
     }
@@ -79,19 +77,11 @@ public class CameraSourcePreview extends ViewGroup {
       cameraSource.release();
       cameraSource = null;
     }
-    surfaceView.getHolder().getSurface().release();
   }
 
-  @SuppressLint("MissingPermission")
   private void startIfReady() throws IOException {
     if (startRequested && surfaceAvailable) {
-      if (PreferenceUtils.isCameraLiveViewportEnabled(context)) {
-        cameraSource.start(surfaceView.getHolder());
-      } else {
-        cameraSource.start();
-      }
-      requestLayout();
-
+      cameraSource.start(surfaceView.getHolder());
       if (overlay != null) {
         Size size = cameraSource.getPreviewSize();
         int min = Math.min(size.getWidth(), size.getHeight());

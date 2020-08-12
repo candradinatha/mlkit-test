@@ -138,20 +138,20 @@ class RecognitionActivity : BaseActivity(), CvCameraViewListener2, AttendanceCon
             faces = MatOperation.rotateFaces(imgRgba, faces, ppF!!.angleForRecognition)
             for (i in faces.indices) {
 //                recognize(images[i], imgRgba, faces[i])
-//                val label = rec!!.recognize(images[i], "")
-//                MatOperation.drawRectangleAndLabelOnPreview(
-//                    imgRgba,
-//                    faces[i],
-//                    label,
-//                    front_camera
-//                )
-//                if (label == employeeId) {
-//                    Handler(Looper.getMainLooper()).post(object : Runnable {
-//                        override fun run() {
-//                           checkInOrOut(attendanceId)
-//                        }
-//                    })
-//                }
+                val label = rec!!.recognize(images[i], "")
+                MatOperation.drawRectangleAndLabelOnPreview(
+                    imgRgba,
+                    faces[i],
+                    label,
+                    front_camera
+                )
+                if (label == employeeId) {
+                    Handler(Looper.getMainLooper()).post(object : Runnable {
+                        override fun run() {
+                           checkInOrOut(attendanceId)
+                        }
+                    })
+                }
             }
             imgRgba?: Mat()
         }

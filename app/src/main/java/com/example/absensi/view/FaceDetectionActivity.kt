@@ -4,13 +4,11 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.absensi.R
 import com.example.absensi.common.CameraSource
-import com.example.absensi.common.GraphicOverlay
 import com.example.absensi.facedetection.FaceDetectionProcessor
 import kotlinx.android.synthetic.main.activity_face_detection.*
 import org.opencv.android.OpenCVLoader
@@ -70,7 +68,7 @@ class FaceDetectionActivity : AppCompatActivity() {
     }
 
     private fun createCameraSource() {
-        cameraSource.setMachineLearningFrameProcessor(FaceDetectionProcessor(resources))
+        cameraSource.setMachineLearningFrameProcessor(FaceDetectionProcessor())
     }
 
     private fun startCameraSource() {

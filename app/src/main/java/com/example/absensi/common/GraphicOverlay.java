@@ -20,8 +20,8 @@ import android.view.View;
 
 import com.google.android.gms.vision.CameraSource;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A view which renders a series of custom graphics to be overlayed on top of an associated preview
@@ -49,7 +49,10 @@ public class GraphicOverlay extends View {
   private int previewHeight;
   private float heightScaleFactor = 1.0f;
   private int facing = CameraSource.CAMERA_FACING_BACK;
-  private final List<Graphic> graphics = new ArrayList<>();
+  private Set<Graphic> graphics = new HashSet<>();
+
+//  private int mRatioWidth = 0;
+//  private int mRatioHeight = 0;
 
   /**
    * Base class for a custom graphics object to be rendered within the graphic overlay. Subclass
@@ -135,6 +138,7 @@ public class GraphicOverlay extends View {
     synchronized (lock) {
       graphics.add(graphic);
     }
+    postInvalidate();
   }
 
   /** Removes a graphic from the overlay. */
@@ -165,8 +169,8 @@ public class GraphicOverlay extends View {
 
     synchronized (lock) {
       if ((previewWidth != 0) && (previewHeight != 0)) {
-        widthScaleFactor = (float) getWidth() / previewWidth;
-        heightScaleFactor = (float) getHeight() / previewHeight;
+        widthScaleFactor = (float) canvas.getWidth() / (float) previewWidth;
+        heightScaleFactor = (float) canvas.getHeight() / (float) previewHeight;
       }
 
       for (Graphic graphic : graphics) {
@@ -174,4 +178,37 @@ public class GraphicOverlay extends View {
       }
     }
   }
+
+//  /**
+//   * Sets the aspect ratio for this view. The size of the view will be measured based on the ratio
+//   * calculated from the parameters. Note that the actual sizes of parameters don't matter, that
+//   * is, calling setAspectRatio(2, 3) and setAspectRatio(4, 6) make the same result.
+//   *
+//   * @param width  Relative horizontal size
+//   * @param height Relative vertical size
+//   */
+//  public void setAspectRatio(int width, int height) {
+//    if (width < 0 || height < 0) {
+//      throw new IllegalArgumentException("Size cannot be negative.");
+//    }
+//    mRatioWidth = width;
+//    mRatioHeight = height;
+//    requestLayout();
+//  }
+//
+//  @Override
+//  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+//    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+//    int width = MeasureSpec.getSize(widthMeasureSpec);
+//    int height = MeasureSpec.getSize(heightMeasureSpec);
+//    if (0 == mRatioWidth || 0 == mRatioHeight) {
+//      setMeasuredDimension(width, height);
+//    } else {
+//      if (width < height * mRatioWidth / mRatioHeight) {
+//        setMeasuredDimension(width, width * mRatioHeight / mRatioWidth);
+//      } else {
+//        setMeasuredDimension(height * mRatioWidth / mRatioHeight, height);
+//      }
+//    }
+//  }
 }

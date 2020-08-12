@@ -1,6 +1,7 @@
 package com.example.absensi.view.fragment
 
 
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import androidx.fragment.app.Fragment
@@ -13,12 +14,16 @@ import com.example.absensi.R
 import com.example.absensi.common.Constants
 import com.example.absensi.common.Utilities
 import com.example.absensi.common.toTwoDigits
+import com.example.absensi.model.Chart
 import com.example.absensi.model.attendance.today.TodayAttendanceData
 import com.example.absensi.model.attendance.today.TodayAttendanceResponse
 import com.example.absensi.presenter.AttendanceContract
 import com.example.absensi.presenter.AttendancePresenter
 import com.example.absensi.presenter.BaseContract
+import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import kotlinx.android.synthetic.main.fragment_attendance.*
 import kotlinx.android.synthetic.main.layout_toolbar_elevation_zero.*
 import java.util.*
@@ -94,7 +99,16 @@ class AttendanceFragment : BaseFragment(), AttendanceContract.View, BaseContract
     }
 
     private fun isLoading(isLoading: Boolean) {
-        if (isLoading) Utilities.showProgressDialog(context!!) else Utilities.hideProgressDialog()
+        if (isLoading) {
+            shimmer?.run {
+                startShimmer()
+            }
+        } else {
+            shimmer?.run{
+                stopShimmer()
+                hideShimmer()
+            }
+        }
     }
 
     private fun updateTodayAttendance(data: TodayAttendanceData?) {
@@ -135,6 +149,65 @@ class AttendanceFragment : BaseFragment(), AttendanceContract.View, BaseContract
 
     private fun getTodayAttendance(){
         isLoading(true)
+        initLineChart(line_chart)
         presenter.getTodayAttendance()
+    }
+
+    fun initLineChart(view: LineChart) {
+        view.axisRight.isEnabled = false
+        view.setBackgroundColor(Color.TRANSPARENT)
+        view.legend.isEnabled = false
+        view.setTouchEnabled(true)
+        view.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+            override fun onValueSelected(e: Entry?, h: Highlight?) {}
+            override fun onNothingSelected() {}
+        })
+
+        val xAxis = view.xAxis
+        val yAxis = view.axisLeft
+
+        xAxis?.enableGridDashedLine(10f, 10f, 10f)
+        yAxis?.run {
+            enableGridDashedLine(10f, 10f, 10f)
+            axisMaximum = 23f
+            axisMinimum = 0f
+        }
+
+        // draw limit lines behind data instead of on top
+        yAxis?.setDrawLimitLinesBehindData(true)
+        xAxis?.setDrawLimitLinesBehindData(true)
+
+        // add limit lines
+//        yAxis?.addLimitLine(ll1);
+//        yAxis?.addLimitLine(ll2);
+        xAxis.textSize = 10f
+        yAxis.textSize = 10f
+
+        xAxis.mLabelHeight = ViewGroup.LayoutParams.WRAP_CONTENT
+
+        setChartData(view)
+    }
+
+    fun setChartData(view: LineChart) {
+        val data = Chart(23)
+        val values = arrayListOf<Entry>()
+        data.list.forEachIndexed { index, it ->
+            values.add(Entry(index.toFloat(), it.toFloat()))
+        }
+
+        val lineDataSet = LineDataSet(values, "Data")
+        lineDataSet.run {
+            setDrawIcons(false)
+            color = resources.getColor(R.color.colorPrimary)
+            circleColors = arrayListOf(R.color.colorPrimaryVariant)
+            valueTextSize = 10f
+            lineWidth = 1f
+            circleRadius = 3f
+            setDrawCircleHole(false)
+        }
+
+        val lineData = LineData(listOf(lineDataSet))
+
+        view.data = lineData
     }
 }
