@@ -44,6 +44,17 @@ class AttendancePresenter(val view: AttendanceContract.View, val baseView: BaseC
             })
     }
 
+    override fun getTodayInstantAttendance(label: String) {
+        handler.getTodayInstantAttendance(label)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : ErrorHandler<TodayAttendanceResponse>(basePresenter) {
+                override fun onNext(t: TodayAttendanceResponse) {
+                    view.getTodayAttendance(t)
+                }
+            })
+    }
+
     override fun showError(title: String, message: String?) {
         baseView.showError(title, message)
     }

@@ -74,7 +74,7 @@ class SplashScreenActivity : BaseActivity(){
 
     private fun routeStart() {
         if(preferences.accessToken.isEmpty()) {
-            startActivity(Intent(this, LoginActivity::class.java))
+            startActivity(Intent(this, IntroActivity::class.java))
         } else
             startActivity(Intent(this, MainActivity::class.java))
         finishAffinity()

@@ -21,5 +21,8 @@ data class TodayAttendanceData(
 	val checkInAt: String? = null,
 
 	@field:SerializedName("all_attendance")
-	val allAttendance: Int? = null
+	val allAttendance: Int? = null,
+
+	@field:SerializedName("user")
+	val userData: UserData? = null
 )

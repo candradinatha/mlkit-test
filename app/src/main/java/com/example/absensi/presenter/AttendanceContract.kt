@@ -17,6 +17,7 @@ interface AttendanceContract {
 
     interface Presenter {
         fun getTodayAttendance()
+        fun getTodayInstantAttendance(label: String)
         fun checkIn(id: Int?)
         fun checkOut(id: Int?)
     }
@@ -34,6 +35,11 @@ interface AttendanceContract {
         @PATCH("${Constants.API_ACTION_ATTENDANCE}/${Constants.API_ACTION_ATTENDANCE_OUT}/{id}")
         fun checkOut(
             @Path("id") id: Int?
+        ): Observable<TodayAttendanceResponse>
+
+        @GET("${Constants.API_ACTION_ATTENDANCE_INSTANT}/${Constants.API_ACTION_ATTENDANCE_TODAY}/{args}")
+        fun getTodayInstantAttendance(
+            @Path(value = "args", encoded = true) label: String
         ): Observable<TodayAttendanceResponse>
     }
 

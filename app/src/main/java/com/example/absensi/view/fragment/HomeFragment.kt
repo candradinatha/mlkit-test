@@ -67,8 +67,6 @@ class HomeFragment : BaseFragment(), AttendanceContract.View, BaseContract.View 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setToolbarHome(toolbar)
-
-        setToolbarHome(toolbar)
         toolbar_title.text = getString(R.string.home_toolbar_title)
 
         userData = getUserData()
@@ -78,18 +76,27 @@ class HomeFragment : BaseFragment(), AttendanceContract.View, BaseContract.View 
             with(Intent(context, RecognitionActivity::class.java)) {
                 this.putExtra(Constants.INTENT_ATTENDANCE_ID, attendanceId)
                 this.putExtra(Constants.INTENT_ATTENDANCE_ACTION, attendanceAction)
-                startActivity(this)
+                startActivityForResult(this, Constants.CHECK_IN_OUT_RESULT)
             }
 //        startActivity(Intent(context, FaceDetectionActivity::class.java))
         }
         tv_user_name.text = userData?.name
     }
 
-//    override fun onStart() {
-//        super.onStart()
-//        getTodayAttendance()
-//    }
-
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Constants.CHECK_IN_OUT_RESULT) {
+            val name = data?.getStringExtra(Constants.ARGS_INTENT_NAME) ?: ""
+            val time = data?.getStringExtra(Constants.ARGS_INTENT_TIME) ?: ""
+            val isCheckIn = data?.getBooleanExtra(Constants.ARGS_INTENT_IS_CHECK_IN, false)
+            isCheckIn?.let {
+                if (it)
+                    (activity as BaseActivity).checkInSuccessDialog(name, time)
+                else
+                    (activity as BaseActivity).checkOutSuccessDialog(name, time)
+            }
+        }
+    }
     override fun onResume() {
         super.onResume()
         val preferences = Preferences(GlobalClass.applicationContext()!!)
@@ -209,14 +216,19 @@ class HomeFragment : BaseFragment(), AttendanceContract.View, BaseContract.View 
 
     private fun isLoading(isLoading: Boolean) {
         if (isLoading) {
+            scroll_view_home?.setVisibility(false)
             shimmer?.run {
-                startShimmer()
+                setVisibility(true)
+                showShimmer(true)
             }
         } else {
             shimmer?.run{
                 stopShimmer()
                 hideShimmer()
+                setVisibility(false)
             }
+            scroll_view_home?.setVisibility(true)
+
         }
     }
 

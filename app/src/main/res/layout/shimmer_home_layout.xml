@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/half_app_margin">
+
+    <View
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="@dimen/half_app_margin"
+        android:layout_marginTop="@dimen/half_app_margin"
+        android:background="@drawable/shimmer_item" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_todays_attendance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/half_app_margin"
+        android:layout_marginTop="@dimen/app_margin"
+        android:layout_marginEnd="@dimen/half_app_margin"
+        android:background="@drawable/background_gradient_with_radius"
+        app:layout_constraintBottom_toTopOf="@id/card_check_in_out"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_hello">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_gradient_with_radius"
+            android:padding="@dimen/dp24">
+
+            <View
+                android:id="@+id/tv_today"
+                android:layout_width="150dp"
+                android:layout_height="20dp"
+                android:background="@drawable/shimmer_item"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:background="@drawable/shimmer_item"
+                android:contentDescription="@string/todays_attendance"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_attendance_person"
+                android:layout_width="50dp"
+                android:layout_height="42dp"
+                android:layout_marginTop="@dimen/dp24"
+                android:background="@drawable/shimmer_item"
+                app:layout_constraintStart_toStartOf="@id/tv_today"
+                app:layout_constraintTop_toBottomOf="@id/tv_today" />
+
+            <View
+                android:id="@+id/tv_attended_person"
+                android:layout_width="150dp"
+                android:layout_height="20dp"
+                android:background="@drawable/shimmer_item"
+                app:layout_constraintBottom_toBottomOf="@id/tv_attendance_person"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_check_in_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/half_app_margin"
+        android:layout_marginTop="@dimen/app_margin"
+        android:layout_marginEnd="@dimen/half_app_margin"
+        android:layout_marginBottom="@dimen/half_app_margin"
+        app:layout_constraintBottom_toTopOf="@id/card_months_attendance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_todays_attendance">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/half_app_margin"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/tv_todays_work_hour"
+                style="@style/AppTheme.MediumText"
+                android:layout_width="100dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/half_app_margin"
+                android:layout_marginTop="@dimen/half_app_margin"
+                android:background="@drawable/shimmer_item"
+                app:layout_constraintBottom_toTopOf="@id/tv_now_is"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/tv_now_is"
+                android:layout_width="120dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="@dimen/dp4"
+                android:background="@drawable/shimmer_item"
+                app:layout_constraintBottom_toTopOf="@id/todays_work_hours"
+                app:layout_constraintStart_toStartOf="@id/tv_todays_work_hour"
+                app:layout_constraintTop_toBottomOf="@id/tv_todays_work_hour" />
+
+
+            <View
+                android:id="@+id/todays_work_hours"
+                android:layout_width="120dp"
+                android:layout_height="42dp"
+                android:layout_marginTop="26dp"
+                android:layout_marginBottom="@dimen/half_app_margin"
+                android:background="@drawable/shimmer_item"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tv_todays_work_hour"
+                app:layout_constraintTop_toBottomOf="@id/tv_now_is" />
+
+
+
+            <View
+                android:id="@+id/btn_check_in_out"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:layout_margin="@dimen/half_app_margin"
+                android:background="@drawable/shimmer_item"
+                android:paddingStart="@dimen/dp24"
+                android:paddingEnd="@dimen/dp24"
+                android:text="@string/check_in"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_months_attendance"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_margin="@dimen/half_app_margin">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/half_app_margin">
+
+            <View
+                android:id="@+id/tv_months_attendance"
+                style="@style/AppTheme.MediumText"
+                android:layout_width="150dp"
+                android:layout_height="20dp"
+                android:background="@drawable/shimmer_item"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/half_app_margin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/chart_months_attendance"
+                android:layout_width="100dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/app_margin"
+                android:layout_marginBottom="@dimen/half_app_margin"
+                android:background="@drawable/shimmer_item"
+                app:layout_constraintDimensionRatio="H, 1:1"
+                app:layout_constraintBottom_toTopOf="@id/line_chart"
+                app:layout_constraintStart_toStartOf="@id/tv_months_attendance"
+                app:layout_constraintTop_toBottomOf="@id/tv_months_attendance" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_present"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/app_margin"
+                android:layout_marginEnd="@dimen/half_app_margin"
+                app:layout_constraintBottom_toBottomOf="@id/chart_months_attendance"
+                app:layout_constraintEnd_toStartOf="@id/layout_late"
+                app:layout_constraintStart_toEndOf="@id/chart_months_attendance"
+                app:layout_constraintTop_toTopOf="@id/chart_months_attendance">
+
+                <View
+                    android:id="@+id/tv_months_present"
+                    android:layout_width="40dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/shimmer_item"
+                    app:layout_constraintBottom_toTopOf="@id/tv_present"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/tv_present"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/shimmer_item"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_months_present" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_late"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/half_app_margin"
+                android:layout_marginEnd="@dimen/half_app_margin"
+                app:layout_constraintBottom_toBottomOf="@id/chart_months_attendance"
+                app:layout_constraintEnd_toStartOf="@id/layout_absent"
+                app:layout_constraintStart_toEndOf="@id/layout_present"
+                app:layout_constraintTop_toTopOf="@id/chart_months_attendance">
+
+                <View
+                    android:id="@+id/tv_months_late"
+                    android:layout_width="40dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/shimmer_item"
+                    app:layout_constraintBottom_toTopOf="@id/tv_late"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/tv_late"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/shimmer_item"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_months_late" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_absent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/half_app_margin"
+                android:layout_marginEnd="@dimen/half_app_margin"
+                app:layout_constraintBottom_toBottomOf="@id/chart_months_attendance"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/layout_late"
+                app:layout_constraintTop_toTopOf="@id/chart_months_attendance">
+
+                <TextView
+                    android:id="@+id/tv_months_absent"
+                    android:layout_width="40dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/shimmer_item"
+                    app:layout_constraintBottom_toTopOf="@id/tv_absent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/tv_absent"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/shimmer_item"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_months_absent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/line_chart"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                app:cardBackgroundColor="@color/shimmer_background"
+                android:layout_margin="@dimen/half_app_margin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/chart_months_attendance"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

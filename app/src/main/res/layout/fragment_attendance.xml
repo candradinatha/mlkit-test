@@ -1,228 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.fragment.AttendanceFragment">
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:id="@+id/toolbar_hidden"
+        android:visibility="invisible"
+        />
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <include
-            android:id="@+id/layout_toolbar"
-            app:layout_constraintTop_toTopOf="parent"
-            layout="@layout/layout_toolbar_elevation_zero"
-            app:layout_constraintBottom_toTopOf="@id/layout_toolbar"/>
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_todays_attendance"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_gradient"
-            android:paddingStart="@dimen/half_app_margin"
-            android:paddingEnd="@dimen/half_app_margin"
-            android:paddingTop="@dimen/dp24"
-            android:paddingBottom="@dimen/dp24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_toolbar">
-
-            <TextView
-                android:id="@+id/tv_todays_date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textColor="@color/background"
-                android:layout_marginTop="@dimen/app_margin"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:textAlignment="center"/>
-
-            <TextView
-                android:id="@+id/tv_todays_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textColor="@color/background"
-                android:layout_marginTop="@dimen/half_app_margin"
-                android:textSize="@dimen/sp32"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_todays_date"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:textAlignment="center"/>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_check_in_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/app_margin"
-                android:layout_marginStart="@dimen/half_app_margin"
-                android:layout_marginEnd="@dimen/half_app_margin"
-                android:layout_marginBottom="@dimen/half_app_margin"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_todays_time"
-                app:layout_constraintEnd_toStartOf="@id/card_check_out_time"
-                app:layout_constraintBottom_toBottomOf="parent"
-                >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/half_app_margin"
-                    android:background="@drawable/background_gradient_with_radius"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/background"
-                        android:textAlignment="center"
-                        android:text="Checked in time"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAlignment="center"
-                        android:textStyle="bold"
-                        android:textColor="@color/background"
-                        android:textSize="@dimen/sp20"
-                        android:text="09:00"/>
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_check_out_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/app_margin"
-                android:layout_marginStart="@dimen/half_app_margin"
-                android:layout_marginEnd="@dimen/half_app_margin"
-                android:layout_marginBottom="@dimen/half_app_margin"
-                android:visibility="gone"
-                app:layout_constraintStart_toEndOf="@id/card_check_in_time"
-                app:layout_constraintTop_toBottomOf="@id/tv_todays_time"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/card_total_hour">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/half_app_margin"
-                    android:background="@drawable/background_gradient_with_radius"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAlignment="center"
-                        android:textColor="@color/background"
-                        android:text="Checked out time"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAlignment="center"
-                        android:textStyle="bold"
-                        android:textColor="@color/background"
-                        android:textSize="@dimen/sp20"
-                        android:text="17:00"/>
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_total_hour"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/app_margin"
-                android:layout_marginStart="@dimen/half_app_margin"
-                android:layout_marginEnd="@dimen/half_app_margin"
-                android:layout_marginBottom="@dimen/half_app_margin"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/tv_todays_time"
-                app:layout_constraintStart_toEndOf="@id/card_check_out_time"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/half_app_margin"
-                    android:background="@drawable/background_gradient_with_radius"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAlignment="center"
-                        android:textColor="@color/background"
-                        android:text="Total work hours"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAlignment="center"
-                        android:textStyle="bold"
-                        android:textColor="@color/background"
-                        android:textSize="@dimen/sp20"
-                        android:text="8 Hrs"/>
-
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/layout_todays_attendance"
-            android:orientation="vertical"
-            android:padding="@dimen/half_app_margin">
+            android:orientation="vertical">
 
-            <com.google.android.material.card.MaterialCardView
+            <include
+                android:id="@+id/layout_toolbar"
+                app:layout_constraintTop_toTopOf="parent"
+                layout="@layout/layout_toolbar_elevation_zero"
+                app:layout_constraintBottom_toTopOf="@id/layout_toolbar"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_main_content"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/half_app_margin">
+                android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_todays_attendance"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/background_gradient_with_radius"
-                    android:orientation="vertical">
+                    android:background="@drawable/background_gradient"
+                    android:paddingStart="@dimen/half_app_margin"
+                    android:paddingEnd="@dimen/half_app_margin"
+                    android:paddingTop="@dimen/dp24"
+                    android:paddingBottom="@dimen/dp24"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tv_todays_date"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Today's Attendance"
                         android:textColor="@color/background"
-                        style="@style/AppTheme.TextAppearance.Body1"
-                        android:layout_margin="@dimen/app_margin"/>
+                        android:layout_marginTop="@dimen/app_margin"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:textAlignment="center"/>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/tv_todays_time"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/half_app_margin"
-                        android:orientation="horizontal"
-                        android:weightSum="9">
+                        android:textColor="@color/background"
+                        android:layout_marginTop="@dimen/half_app_margin"
+                        android:textSize="@dimen/sp32"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_todays_date"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:textAlignment="center"/>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_check_in_time"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/app_margin"
+                        android:layout_marginStart="@dimen/half_app_margin"
+                        android:layout_marginEnd="@dimen/half_app_margin"
+                        android:layout_marginBottom="@dimen/half_app_margin"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_todays_time"
+                        app:layout_constraintEnd_toStartOf="@id/card_check_out_time"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        >
 
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/half_app_margin"
-                            android:layout_weight="3"
+                            android:background="@drawable/background_gradient_with_radius"
                             android:orientation="vertical">
 
                             <TextView
@@ -233,21 +99,37 @@
                                 android:text="Checked in time"/>
 
                             <TextView
-                                android:id="@+id/todays_check_in_time"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textAlignment="center"
                                 android:textStyle="bold"
                                 android:textColor="@color/background"
-                                android:textSize="@dimen/sp20"/>
+                                android:textSize="@dimen/sp20"
+                                android:text="09:00"/>
 
                         </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_check_out_time"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/app_margin"
+                        android:layout_marginStart="@dimen/half_app_margin"
+                        android:layout_marginEnd="@dimen/half_app_margin"
+                        android:layout_marginBottom="@dimen/half_app_margin"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toEndOf="@id/card_check_in_time"
+                        app:layout_constraintTop_toBottomOf="@id/tv_todays_time"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/card_total_hour">
 
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/half_app_margin"
-                            android:layout_weight="3"
+                            android:background="@drawable/background_gradient_with_radius"
                             android:orientation="vertical">
 
                             <TextView
@@ -258,21 +140,37 @@
                                 android:text="Checked out time"/>
 
                             <TextView
-                                android:id="@+id/todays_check_out_time"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textAlignment="center"
                                 android:textStyle="bold"
                                 android:textColor="@color/background"
-                                android:textSize="@dimen/sp20"/>
+                                android:textSize="@dimen/sp20"
+                                android:text="17:00"/>
 
                         </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_total_hour"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/app_margin"
+                        android:layout_marginStart="@dimen/half_app_margin"
+                        android:layout_marginEnd="@dimen/half_app_margin"
+                        android:layout_marginBottom="@dimen/half_app_margin"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@id/tv_todays_time"
+                        app:layout_constraintStart_toEndOf="@id/card_check_out_time"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
 
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/half_app_margin"
-                            android:layout_weight="3"
+                            android:background="@drawable/background_gradient_with_radius"
                             android:orientation="vertical">
 
                             <TextView
@@ -283,70 +181,195 @@
                                 android:text="Total work hours"/>
 
                             <TextView
-                                android:id="@+id/todays_work_hours"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textAlignment="center"
                                 android:textStyle="bold"
                                 android:textColor="@color/background"
-                                android:textSize="@dimen/sp20"/>
+                                android:textSize="@dimen/sp20"
+                                android:text="8 Hrs"/>
 
                         </LinearLayout>
-                    </LinearLayout>
 
-                </LinearLayout>
-
-
-
-            </com.google.android.material.card.MaterialCardView>
-
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/half_app_margin">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/app_margin">
-
-                    <TextView
-                        android:id="@+id/tv_months_attendance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="August's Attendance"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        style="@style/AppTheme.TextAppearance.Body1"/>
-
-                    <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/line_chart"
-                        android:layout_width="@dimen/dp0"
-                        android:layout_height="150dp"
-                        android:layout_marginTop="@dimen/half_app_margin"
-                        app:layout_constraintTop_toBottomOf="@id/tv_months_attendance"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"/>
-
-                    <com.github.mikephil.charting.charts.PieChart
-                        android:id="@+id/chart_attendance"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="@dimen/app_margin"
-                        app:layout_constraintTop_toBottomOf="@id/line_chart"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintDimensionRatio="H, 1:1"/>
+                    </com.google.android.material.card.MaterialCardView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/layout_todays_attendance"
+                    android:orientation="vertical"
+                    android:padding="@dimen/half_app_margin">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/half_app_margin">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/background_gradient_with_radius"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Today's Attendance"
+                                android:textColor="@color/background"
+                                style="@style/AppTheme.TextAppearance.Body1"
+                                android:layout_margin="@dimen/app_margin"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/half_app_margin"
+                                android:orientation="horizontal"
+                                android:weightSum="9">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:padding="@dimen/half_app_margin"
+                                    android:layout_weight="3"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/background"
+                                        android:textAlignment="center"
+                                        android:text="Checked in time"/>
+
+                                    <TextView
+                                        android:id="@+id/todays_check_in_time"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textAlignment="center"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/background"
+                                        android:textSize="@dimen/sp20"/>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:padding="@dimen/half_app_margin"
+                                    android:layout_weight="3"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textAlignment="center"
+                                        android:textColor="@color/background"
+                                        android:text="Checked out time"/>
+
+                                    <TextView
+                                        android:id="@+id/todays_check_out_time"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textAlignment="center"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/background"
+                                        android:textSize="@dimen/sp20"/>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:padding="@dimen/half_app_margin"
+                                    android:layout_weight="3"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textAlignment="center"
+                                        android:textColor="@color/background"
+                                        android:text="Total work hours"/>
+
+                                    <TextView
+                                        android:id="@+id/todays_work_hours"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textAlignment="center"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/background"
+                                        android:textSize="@dimen/sp20"/>
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+
+                    </com.google.android.material.card.MaterialCardView>
+
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/half_app_margin">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/app_margin">
+
+                            <TextView
+                                android:id="@+id/tv_months_attendance"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="August's Attendance"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                style="@style/AppTheme.TextAppearance.Body1"/>
+
+                            <com.github.mikephil.charting.charts.LineChart
+                                android:id="@+id/line_chart"
+                                android:layout_width="@dimen/dp0"
+                                android:layout_height="150dp"
+                                android:layout_marginTop="@dimen/half_app_margin"
+                                app:layout_constraintTop_toBottomOf="@id/tv_months_attendance"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"/>
+
+                            <com.github.mikephil.charting.charts.PieChart
+                                android:id="@+id/chart_attendance"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_marginTop="@dimen/app_margin"
+                                app:layout_constraintTop_toBottomOf="@id/line_chart"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintDimensionRatio="H, 1:1"/>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar_hidden">
+
+        <include
+            layout="@layout/shimmer_attendance_layout"/>
 
     </com.facebook.shimmer.ShimmerFrameLayout>
 
-</ScrollView>
+</RelativeLayout>

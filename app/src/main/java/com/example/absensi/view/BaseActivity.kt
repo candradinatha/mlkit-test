@@ -118,4 +118,62 @@ open class BaseActivity: AppCompatActivity(), BaseContract.View {
             null
         )
     }
+
+    fun uploadSuccessDialog() {
+        showAlertDialog(
+            SweetAlertDialog.SUCCESS_TYPE,
+            null,
+            getString(R.string.upload_success),
+            getString(R.string.dialog_ok),
+            null,
+            {
+                it.dismissWithAnimation()
+            },
+            null
+        )
+    }
+
+    fun modelIsUpToDate() {
+        showAlertDialog(
+            SweetAlertDialog.SUCCESS_TYPE,
+            null,
+            "Models are Up to Date \nThere is no update needed",
+            getString(R.string.dialog_ok),
+            null,
+            {
+                it.dismissWithAnimation()
+            },
+            null
+        )
+    }
+    fun checkInSuccessDialog(name: String, checkInTime: String) {
+        showAlertDialog(
+            SweetAlertDialog.SUCCESS_TYPE,
+            getString(R.string.checking_in_successfully),
+            "Hello, Welcome $name, \nYou have successfully checked in at $checkInTime \nGood luck on your work today",
+            getString(R.string.dialog_ok),
+            null,
+            {
+                it.dismissWithAnimation()
+            },
+            null
+        )
+
+    }
+
+    fun checkOutSuccessDialog(name: String, checkInTime: String) {
+        showAlertDialog(
+            SweetAlertDialog.SUCCESS_TYPE,
+            getString(R.string.checking_out_successfully),
+            "Hello $name,\nYou have successfully checked out at $checkInTime,\nThank you for your hard work today",
+            getString(R.string.dialog_ok),
+            null,
+            {
+                it.dismissWithAnimation()
+            },
+            null
+        )
+
+    }
+
 }

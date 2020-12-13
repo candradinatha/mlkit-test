@@ -11,14 +11,10 @@
         layout="@layout/layout_toolbar" />
 
     <ScrollView
+        android:id="@+id/scroll_view_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/layout_toolbar">
-
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -376,6 +372,16 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </com.facebook.shimmer.ShimmerFrameLayout>
     </ScrollView>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer"
+        android:layout_below="@id/layout_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            layout="@layout/shimmer_home_layout"/>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
 </RelativeLayout>

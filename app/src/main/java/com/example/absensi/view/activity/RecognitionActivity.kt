@@ -1,5 +1,6 @@
 package com.example.absensi.view.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -16,10 +17,9 @@ import ch.zhaw.facerecognitionlibrary.Helpers.MatOperation
 import ch.zhaw.facerecognitionlibrary.PreProcessor.PreProcessorFactory
 import ch.zhaw.facerecognitionlibrary.Recognition.Recognition
 import ch.zhaw.facerecognitionlibrary.Recognition.RecognitionFactory
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.absensi.R
-import com.example.absensi.common.Constants
-import com.example.absensi.common.Preferences
-import com.example.absensi.common.setVisibility
+import com.example.absensi.common.*
 import com.example.absensi.model.attendance.today.TodayAttendanceResponse
 import com.example.absensi.model.auth.UserDataRealm
 import com.example.absensi.presenter.*
@@ -34,7 +34,7 @@ import org.opencv.core.Mat
 import org.opencv.core.Rect
 import java.io.File
 
-class RecognitionActivity : BaseActivity(), CvCameraViewListener2, AttendanceContract.View, DetectionContract.View {
+class RecognitionActivity : BaseActivity(), CvCameraViewListener2, AttendanceContract.View {
 
     private lateinit var preferences: Preferences
     private var mRecognitionView: CustomCameraView? = null
@@ -50,7 +50,9 @@ class RecognitionActivity : BaseActivity(), CvCameraViewListener2, AttendanceCon
     private var attendanceAction = 0
     private var realm = Realm.getDefaultInstance()
     private var employeeId = getUserData()?.employeeId
-    private var detectionPresenter = DetectionPresenter(this)
+    private var isInstantCheck = false
+    private var isInstantChecked = false
+//    private var detectionPresenter = DetectionPresenter(this)
 
     companion object {
         private const val TAG = "Recognition"
@@ -97,6 +99,7 @@ class RecognitionActivity : BaseActivity(), CvCameraViewListener2, AttendanceCon
 
         attendanceId = intent.getIntExtra(Constants.INTENT_ATTENDANCE_ID, 0)
         attendanceAction = intent.getIntExtra(Constants.INTENT_ATTENDANCE_ACTION, 0)
+        isInstantCheck = intent.getBooleanExtra(Constants.IS_INSTANT, false)
 
         preferences = Preferences(this)
     }
@@ -145,12 +148,19 @@ class RecognitionActivity : BaseActivity(), CvCameraViewListener2, AttendanceCon
                     label,
                     front_camera
                 )
-                if (label == employeeId) {
-                    Handler(Looper.getMainLooper()).post(object : Runnable {
-                        override fun run() {
-                           checkInOrOut(attendanceId)
-                        }
-                    })
+                if (isInstantCheck && !isInstantChecked) {
+                    Handler(Looper.getMainLooper()).post {
+                        isInstantChecked = true
+                        checkInstantAttendance(label)
+                    }
+                } else {
+                    if (label == employeeId) {
+                        Handler(Looper.getMainLooper()).post(object : Runnable {
+                            override fun run() {
+                                checkInOrOut(attendanceId)
+                            }
+                        })
+                    }
                 }
             }
             imgRgba?: Mat()
@@ -186,39 +196,60 @@ class RecognitionActivity : BaseActivity(), CvCameraViewListener2, AttendanceCon
     //region contract view
 
     override fun checkInResponse(response: TodayAttendanceResponse) {
-        preferences.afterCheckInSuccess = true
         isLoading(false)
-        finish()
+        val name = response.data?.userData?.name ?: ""
+        val checkInTime = Utilities.changeDateFormat(response.data?.checkInAt, Constants.API_DATE_FORMAT, Constants.HOUR_DATE_FORMAT, this)
+        with(Intent()) {
+            this.putExtra(Constants.ARGS_INTENT_NAME, name)
+            this.putExtra(Constants.ARGS_INTENT_TIME, checkInTime)
+            this.putExtra(Constants.ARGS_INTENT_IS_CHECK_IN, true)
+            setResult(Constants.CHECK_IN_OUT_RESULT, this)
+            finish()
+        }
     }
 
     override fun checkOutResponse(response: TodayAttendanceResponse) {
-        preferences.afterCheckOutSuccess = true
         isLoading(false)
-        finish()
+        val name = response.data?.userData?.name ?: ""
+        val checkOutTime = Utilities.changeDateFormat(response.data?.checkOutAt, Constants.API_DATE_FORMAT, Constants.HOUR_DATE_FORMAT, this)
+        with(Intent()) {
+            this.putExtra(Constants.ARGS_INTENT_NAME, name)
+            this.putExtra(Constants.ARGS_INTENT_TIME, checkOutTime)
+            this.putExtra(Constants.ARGS_INTENT_IS_CHECK_IN, false)
+            setResult(Constants.CHECK_IN_OUT_RESULT, this)
+            finish()
+        }
     }
 
-    override fun recognitionResult(recognitionResult: RecognitionResultData) {
-        MatOperation.drawRectangleAndLabelOnPreview(
-            recognitionResult.imgRgba,
-            recognitionResult.face,
-            recognitionResult.label,
-            front_camera
-        )
-//                if (label == employeeId) {
-//                    Handler(Looper.getMainLooper()).post(object : Runnable {
-//                        override fun run() {
-//                           checkInOrOut(attendanceId)
-//                        }
-//                    })
-//                }
-    }
+//    override fun recognitionResult(recognitionResult: RecognitionResultData) {
+//        MatOperation.drawRectangleAndLabelOnPreview(
+//            recognitionResult.imgRgba,
+//            recognitionResult.face,
+//            recognitionResult.label,
+//            front_camera
+//        )
+////                if (label == employeeId) {
+////                    Handler(Looper.getMainLooper()).post(object : Runnable {
+////                        override fun run() {
+////                           checkInOrOut(attendanceId)
+////                        }
+////                    })
+////                }
+//    }
 
     override fun showError(title: String, message: String?) {
         super.showError(title, message)
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
-    override fun getTodayAttendance(response: TodayAttendanceResponse) {}
+    override fun getTodayAttendance(response: TodayAttendanceResponse) {
+        isLoading(false)
+        attendanceAction = if (response.data?.checkInAt == null)
+            Constants.CHECK_IN
+        else
+            Constants.CHECK_OUT
+        checkInOrOut(response.data?.id ?: 0)
+    }
 
     // endregion
 
@@ -241,11 +272,16 @@ class RecognitionActivity : BaseActivity(), CvCameraViewListener2, AttendanceCon
         return realm.where(UserDataRealm::class.java).findFirst()
     }
 
-    private fun recognize(image: Mat, imgRgba: Mat, face: Rect) {
-        rec?.let {
-            detectionPresenter.startTask(it, image, imgRgba, face)
-        }
+    private fun checkInstantAttendance(label: String) {
+        isLoading(true)
+        presenter.getTodayInstantAttendance(label)
     }
+
+//    private fun recognize(image: Mat, imgRgba: Mat, face: Rect) {
+//        rec?.let {
+//            detectionPresenter.startTask(it, image, imgRgba, face)
+//        }
+//    }
 
     //endregion
 

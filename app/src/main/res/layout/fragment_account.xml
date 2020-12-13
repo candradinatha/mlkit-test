@@ -275,61 +275,92 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/card_mail"/>
 
+
+
             <LinearLayout
-                android:id="@+id/layout_about_us"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/app_margin"
-                android:background="?android:attr/selectableItemBackground"
-                android:visibility="gone"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/separator"
-                app:layout_constraintBottom_toTopOf="@id/layout_logout">
-
-                <!--            <ImageView-->
-                <!--                android:layout_width="wrap_content"-->
-                <!--                android:layout_height="wrap_content"-->
-                <!--                android:layout_gravity="center"-->
-                <!--                android:layout_marginEnd="@dimen/half_app_margin"-->
-                <!--                android:src="@drawable/icon_about_us" />-->
-
-                <!--            <TextView-->
-                <!--                android:layout_width="wrap_content"-->
-                <!--                android:layout_height="wrap_content"-->
-                <!--                android:layout_gravity="center"-->
-                <!--                android:textColor="@color/colorPrimary"-->
-                <!--                android:text="@string/about_toolbar_title" />-->
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_logout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="?android:attr/selectableItemBackground"
-                android:padding="@dimen/app_margin"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layout_about_us"
                 app:layout_constraintBottom_toBottomOf="parent">
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/layout_upload_model"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="@dimen/half_app_margin"
-                    android:tint="@color/colorPrimary"
-                    android:src="@drawable/icon_logout" />
+                    android:padding="@dimen/app_margin"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/half_app_margin"
+                        android:tint="@color/colorPrimary"
+                        android:src="@drawable/icon_upload" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/colorPrimary"
+                        android:text="@string/upload_model" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_download_model"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textColor="@color/colorPrimary"
-                    android:text="@string/logout" />
+                    android:padding="@dimen/app_margin"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/half_app_margin"
+                        android:tint="@color/colorPrimary"
+                        android:src="@drawable/icon_download" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/colorPrimary"
+                        android:text="@string/check_model" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/app_margin"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/half_app_margin"
+                        android:tint="@color/colorPrimary"
+                        android:src="@drawable/icon_logout" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/colorPrimary"
+                        android:text="@string/logout" />
+
+                </LinearLayout>
+
 
             </LinearLayout>
 

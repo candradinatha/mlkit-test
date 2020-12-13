@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import com.example.absensi.R
 import com.example.absensi.common.Constants
 import com.example.absensi.common.Utilities
+import com.example.absensi.common.setVisibility
 import com.example.absensi.common.toTwoDigits
 import com.example.absensi.model.Chart
 import com.example.absensi.model.attendance.today.TodayAttendanceData
@@ -100,14 +101,18 @@ class AttendanceFragment : BaseFragment(), AttendanceContract.View, BaseContract
 
     private fun isLoading(isLoading: Boolean) {
         if (isLoading) {
+            layout_main_content?.setVisibility(false)
             shimmer?.run {
-                startShimmer()
+                setVisibility(true)
+                showShimmer(true)
             }
         } else {
             shimmer?.run{
                 stopShimmer()
                 hideShimmer()
+                setVisibility(false)
             }
+            layout_main_content?.setVisibility(true)
         }
     }
 

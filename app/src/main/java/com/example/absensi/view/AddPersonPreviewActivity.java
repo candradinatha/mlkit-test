@@ -174,9 +174,10 @@ public class AddPersonPreviewActivity extends Activity implements CameraBridgeVi
 
                             // Stop after numberOfPictures (settings option)
                             if(total >= numberOfPictures){
-                                Intent intent = new Intent(getApplicationContext(), TrainingActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
+//                                Intent intent = new Intent(getApplicationContext(), TrainingActivity.class);
+//                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                                startActivity(intent);
+                                finish();
                             }
                             capturePressed = false;
                         } else {

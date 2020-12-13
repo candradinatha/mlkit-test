@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.example.absensi.R
 import com.example.absensi.common.Constants
 import com.example.absensi.common.GlobalClass
+import com.example.absensi.view.activity.IntroActivity
 import com.example.absensi.view.activity.LoginActivity
 import com.example.absensi.view.fragment.AccountFragment
 import com.example.absensi.view.fragment.AttendanceFragment
@@ -88,7 +89,7 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
     }
 
     fun intentLogout() {
-        intent = Intent(this, LoginActivity::class.java)
+        intent = Intent(this, IntroActivity::class.java)
         GlobalClass.userLoggedOut()
         startActivity(intent)
         finishAffinity()

@@ -71,13 +71,15 @@ public class TrainingActivity extends Activity {
         thread = new Thread(new Runnable() {
             public void run() {
                 if(!Thread.currentThread().isInterrupted()){
-                    PreProcessorFactory ppF = new PreProcessorFactory(getApplicationContext());
-                    PreferencesHelper preferencesHelper = new PreferencesHelper(getApplicationContext());
+//                    PreProcessorFactory ppF = new PreProcessorFactory(getApplicationContext());
+//                    PreferencesHelper preferencesHelper = new PreferencesHelper(getApplicationContext());
 //                    String algorithm = preferencesHelper.getClassificationMethod();
                     String algorithm = getString(R.string.tensorflow);
 
                     FileHelper fileHelper = new FileHelper();
                     fileHelper.createDataFolderIfNotExsiting();
+
+                    // get image saved
                     final File[] persons = fileHelper.getTrainingList();
                     if (persons.length > 0) {
                         Recognition rec = RecognitionFactory.getRecognitionAlgorithm(getApplicationContext(), Recognition.TRAINING, algorithm);

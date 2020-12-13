@@ -159,4 +159,12 @@
     <string name="checking_out">Checking out…</string>
     <string name="checking_in_successfully">Checked In Successfully</string>
     <string name="checking_out_successfully">Checked Out Successfully</string>
+    <string name="check_model">Check for Model Update</string>
+    <string name="upload_model">Upload Training Model</string>
+    <string name="upload_success">Models Uploaded Successfully</string>
+    <string name="model_update_available">New Version of Model is Available to Download</string>
+    <string name="model_up_to_date">Your Current Model is Up to Date</string>
+    <string name="download_new_model">Download Model</string>
+    <string name="login_register">Login / Register</string>
+    <string name="instant_check_in_out">Instant Check In / Out</string>
 </resources>

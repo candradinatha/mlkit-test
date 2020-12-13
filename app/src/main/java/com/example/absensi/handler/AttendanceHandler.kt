@@ -19,4 +19,8 @@ class AttendanceHandler: BaseHandler() {
     fun checkOut(id: Int?): Observable<TodayAttendanceResponse> {
         return service.checkOut(id)
     }
+
+    fun getTodayInstantAttendance(label: String): Observable<TodayAttendanceResponse> {
+        return service.getTodayInstantAttendance(label)
+    }
 }

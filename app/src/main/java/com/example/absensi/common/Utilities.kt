@@ -20,7 +20,7 @@ import java.util.*
 object Utilities {
 
     fun getApiUrlForHttps() : String {
-        return  String.format("http://%1\$s/%2\$s/", Constants.DEBUG_DOMAIN, Constants.SERVER_PATH)
+        return  String.format("https://%1\$s/%2\$s/", Constants.DEBUG_DOMAIN, Constants.SERVER_PATH)
     }
 
     fun parseError(response: Response<*>): APIError {
@@ -46,7 +46,6 @@ object Utilities {
         dialog.run {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             window?.setBackgroundDrawableResource(android.R.color.transparent)
-            setCancelable(false)
             setCanceledOnTouchOutside(false)
             setContentView(view)
             show()
