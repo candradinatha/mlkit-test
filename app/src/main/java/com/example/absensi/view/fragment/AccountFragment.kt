@@ -25,6 +25,7 @@ import com.example.absensi.presenter.ModelsPresenter
 import com.example.absensi.view.AddPersonPreviewActivity
 import com.example.absensi.view.BaseActivity
 import com.example.absensi.view.MainActivity
+import com.example.absensi.view.activity.TestActivity
 import com.example.absensi.view.activity.TrainingActivity
 import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_account.*
@@ -96,6 +97,10 @@ class AccountFragment : BaseFragment(), ModelsContract.View {
 
         layout_upload_model?.setOnClickListener {
             uploadModels()
+        }
+
+        layout_testing?.setOnClickListener {
+            startActivity(Intent(context, TestActivity::class.java))
         }
     }
 

@@ -361,6 +361,30 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/layout_testing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/app_margin"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/half_app_margin"
+                        android:tint="@color/colorPrimary"
+                        android:src="@drawable/icon_logout" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/colorPrimary"
+                        android:text="Testing" />
+
+                </LinearLayout>
 
             </LinearLayout>
 

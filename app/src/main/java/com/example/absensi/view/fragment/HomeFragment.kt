@@ -179,33 +179,33 @@ class HomeFragment : BaseFragment(), AttendanceContract.View, BaseContract.View 
 
             if (it?.checkInAt != null && it.checkOutAt == null) {
                 attendanceAction = Constants.CHECK_OUT
-                tv_check_in_out_time.setVisibility(true)
-                btn_check_in_out.text = getString(R.string.check_out)
-                tv_check_in_out_time.text = getString(R.string.check_in_at, Utilities.changeDateFormat(it.checkInAt, Constants.API_DATE_FORMAT, Constants.HOUR_DATE_FORMAT, context!!))
+                tv_check_in_out_time?.setVisibility(true)
+                btn_check_in_out?.text = getString(R.string.check_out)
+                tv_check_in_out_time?.text = getString(R.string.check_in_at, Utilities.changeDateFormat(it.checkInAt, Constants.API_DATE_FORMAT, Constants.HOUR_DATE_FORMAT, context!!))
                 checkInTime = Utilities.stringToDate(it.checkInAt, Constants.API_DATE_FORMAT, context!!)!!.time
                 handler.postDelayed(runnable, 1000)
             } else if (it?.checkOutAt != null) {
                 attendanceAction = 99
-                tv_check_in_out_time.setVisibility(true)
-                btn_check_in_out.setVisibility(false)
-                tv_check_in_out_time.text = getString(R.string.check_out_at, Utilities.changeDateFormat(it.checkOutAt, Constants.API_DATE_FORMAT, Constants.HOUR_DATE_FORMAT, context!!))
+                tv_check_in_out_time?.setVisibility(true)
+                btn_check_in_out?.setVisibility(false)
+                tv_check_in_out_time?.text = getString(R.string.check_out_at, Utilities.changeDateFormat(it.checkOutAt, Constants.API_DATE_FORMAT, Constants.HOUR_DATE_FORMAT, context!!))
                 checkInTime = Utilities.stringToDate(it.checkInAt, Constants.API_DATE_FORMAT, context!!)!!.time
                 val checkOutTime = Utilities.stringToDate(it.checkOutAt, Constants.API_DATE_FORMAT, context!!)!!.time
                 val workHours = checkOutTime - checkInTime!!
                 val hours = TimeUnit.MILLISECONDS.toHours(workHours)
                 val minutes = TimeUnit.MILLISECONDS.toMinutes(workHours)
                 val seconds = TimeUnit.MILLISECONDS.toSeconds(workHours)
-                todays_work_hours.text = "${hours.toTwoDigits()}:${(minutes-hours*60).toTwoDigits()}:${(seconds-minutes*60).toTwoDigits()}"
+                todays_work_hours?.text = "${hours.toTwoDigits()}:${(minutes-hours*60).toTwoDigits()}:${(seconds-minutes*60).toTwoDigits()}"
             } else {
                 attendanceAction = Constants.CHECK_IN
-                tv_check_in_out_time.setVisibility(false)
-                todays_work_hours.text = "00:00:00"
+                tv_check_in_out_time?.setVisibility(false)
+                todays_work_hours?.text = "00:00:00"
             }
 
-            tv_today.text = Utilities.changeDateFormat(it?.createdAt, Constants.API_DATE_FORMAT, Constants.HOME_DATE_FORMAT, context!!)
-            tv_attendance_person.text = "${allAttendance}/${allAbsent + allAttendance}"
-            tv_attended_person.text = if (allAbsent == 0) getString(R.string.all_attend) else getString(R.string.people_not_attendance, allAbsent)
-            tv_months_attendance.text = getString(R.string.my_month_attendance, month)
+            tv_today?.text = Utilities.changeDateFormat(it?.createdAt, Constants.API_DATE_FORMAT, Constants.HOME_DATE_FORMAT, context!!)
+            tv_attendance_person?.text = "${allAttendance}/${allAbsent + allAttendance}"
+            tv_attended_person?.text = if (allAbsent == 0) getString(R.string.all_attend) else getString(R.string.people_not_attendance, allAbsent)
+            tv_months_attendance?.text = getString(R.string.my_month_attendance, month)
         }
     }
 

@@ -12,7 +12,7 @@ object Constants {
     // const val DEBUG_DOMAIN = "192.168.100:8000"
 
     //oppo ip address macbook
-    const val DEBUG_DOMAIN = "aaaaedb368ff.ngrok.io"
+    const val DEBUG_DOMAIN = "006a8d708f47.ngrok.io"
 
     const val SERVER_PATH = "api"
     const val ACTIVITY_MAIN = "activity_main"

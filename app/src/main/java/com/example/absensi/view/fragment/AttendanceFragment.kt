@@ -120,23 +120,23 @@ class AttendanceFragment : BaseFragment(), AttendanceContract.View, BaseContract
         data.let {
 
             if (it?.checkInAt != null && it.checkOutAt == null) {
-                todays_check_in_time.text = Utilities.changeDateFormat(it.checkInAt, Constants.API_DATE_FORMAT, Constants.HOUR_DATE_FORMAT, context!!)
+                todays_check_in_time?.text = Utilities.changeDateFormat(it.checkInAt, Constants.API_DATE_FORMAT, Constants.HOUR_DATE_FORMAT, context!!)
                 checkInTime = Utilities.stringToDate(it.checkInAt, Constants.API_DATE_FORMAT, context!!)!!.time
             } else if (it?.checkOutAt != null) {
-                todays_check_in_time.text = Utilities.changeDateFormat(it.checkInAt, Constants.API_DATE_FORMAT, Constants.HOUR_DATE_FORMAT, context!!)
-                todays_check_out_time.text = Utilities.changeDateFormat(it.checkOutAt, Constants.API_DATE_FORMAT, Constants.HOUR_DATE_FORMAT, context!!)
+                todays_check_in_time?.text = Utilities.changeDateFormat(it.checkInAt, Constants.API_DATE_FORMAT, Constants.HOUR_DATE_FORMAT, context!!)
+                todays_check_out_time?.text = Utilities.changeDateFormat(it.checkOutAt, Constants.API_DATE_FORMAT, Constants.HOUR_DATE_FORMAT, context!!)
                 checkInTime = Utilities.stringToDate(it.checkInAt, Constants.API_DATE_FORMAT, context!!)!!.time
                 val checkOutTime = Utilities.stringToDate(it.checkOutAt, Constants.API_DATE_FORMAT, context!!)!!.time
                 val workHours = checkOutTime - checkInTime!!
                 val hours = TimeUnit.MILLISECONDS.toHours(workHours)
                 val minutes = TimeUnit.MILLISECONDS.toMinutes(workHours)
                 val seconds = TimeUnit.MILLISECONDS.toSeconds(workHours)
-                todays_work_hours.text = "${hours.toTwoDigits()}:${(minutes-hours*60).toTwoDigits()}:${(seconds-minutes*60).toTwoDigits()}"
+                todays_work_hours?.text = "${hours.toTwoDigits()}:${(minutes-hours*60).toTwoDigits()}:${(seconds-minutes*60).toTwoDigits()}"
             } else {
-                todays_work_hours.text = "00:00:00"
+                todays_work_hours?.text = "00:00:00"
             }
 
-            tv_todays_date.text = Utilities.changeDateFormat(it?.createdAt, Constants.API_DATE_FORMAT, Constants.HOME_DATE_FORMAT, context!!)
+            tv_todays_date?.text = Utilities.changeDateFormat(it?.createdAt, Constants.API_DATE_FORMAT, Constants.HOME_DATE_FORMAT, context!!)
         }
     }
 

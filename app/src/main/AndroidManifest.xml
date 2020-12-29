@@ -29,7 +29,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:icon">
-        <activity android:name=".view.activity.IntroActivity"></activity>
+        <activity android:name=".view.activity.IntroActivity" />
+        <activity android:name=".view.activity.TestActivity"/>
         <activity
             android:name=".view.MainActivity"
             android:screenOrientation="portrait"
