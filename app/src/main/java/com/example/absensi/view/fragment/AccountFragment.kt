@@ -12,7 +12,10 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import ch.zhaw.facerecognitionlibrary.Helpers.FileHelper
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.absensi.R
@@ -27,6 +30,8 @@ import com.example.absensi.view.BaseActivity
 import com.example.absensi.view.MainActivity
 import com.example.absensi.view.activity.TestActivity
 import com.example.absensi.view.activity.TrainingActivity
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.layout_toolbar_elevation_zero.*
@@ -47,6 +52,8 @@ class AccountFragment : BaseFragment(), ModelsContract.View {
     private var userData: UserDataRealm? = null
     private var preferences = Preferences(GlobalClass.applicationContext()!!)
     private val modelsPresenter = ModelsPresenter(this, this)
+    private var addFaceDialog: AlertDialog? = null
+    private var dialogLayout: View? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,14 +86,16 @@ class AccountFragment : BaseFragment(), ModelsContract.View {
             startActivity(Intent(context, TrainingActivity::class.java))
         }
         button_action_add_face.setOnClickListener {
-            if (isNameAlreadyUsed(FileHelper().trainingList, userData?.employeeId ?: ""))
-                Toast.makeText(
-                    context,
-                    "This name is already used. Please choose another one.",
-                    Toast.LENGTH_SHORT
-                ).show()
-            else
-                intentAddPerson()
+            preferences.addFaceStep = Constants.ADD_FACE_STEP_1
+            showAddFaceDialog()
+//            if (isNameAlreadyUsed(FileHelper().trainingList, userData?.employeeId ?: ""))
+//                Toast.makeText(
+//                    context,
+//                    "This name is already used. Please choose another one.",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            else
+//                intentAddPerson()
         }
         layout_logout.setOnClickListener {
             logout()
@@ -104,8 +113,35 @@ class AccountFragment : BaseFragment(), ModelsContract.View {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (addFaceDialog != null && addFaceDialog!!.isShowing) {
+            val title = dialogLayout?.findViewById<TextView>(R.id.tv_dialog_title)
+            val desc = dialogLayout?.findViewById<TextView>(R.id.tv_dialog_desc)
+            val image = dialogLayout?.findViewById<ImageView>(R.id.iv_face_guide)
+            val step = preferences.addFaceStep
+            when {
+                step == Constants.ADD_FACE_STEP_2 -> {
+                    title?.text = resources.getString(R.string.add_face_title_2)
+                    desc?.text = resources.getString(R.string.add_face_right)
+                    image?.setImageResource(R.drawable.wajah_kanan)
+                }
+                step == Constants.ADD_FACE_STEP_3 -> {
+                    title?.text = resources.getString(R.string.add_face_title_3)
+                    desc?.text = resources.getString(R.string.add_face_left)
+                    image?.setImageResource(R.drawable.wajah_kiri)
+                }
+                step > Constants.ADD_FACE_STEP_3 -> {
+                    addFaceDialog?.dismiss()
+                    (activity as BaseActivity).addFaceSuccessDialog()
+                }
+
+            }
+        }
+    }
+
     private fun intentAddPerson() {
-        val intent = Intent(context, AddPersonPreviewActivity::class.java)
+        val intent = Intent(context, AddPersonPreviewActivity()::class.java)
         intent.putExtra("Name", userData?.employeeId)
         intent.putExtra("Folder", "Training")
         startActivity(intent)
@@ -307,6 +343,31 @@ class AccountFragment : BaseFragment(), ModelsContract.View {
             Utilities.showProgressDialog(this)
         }
         modelsPresenter.checkVersion(currentVersion)
+    }
+
+    private fun showAddFaceDialog() {
+        dialogLayout = layoutInflater.inflate(R.layout.layout_dialog_guideline, null)
+        val title = dialogLayout?.findViewById<TextView>(R.id.tv_dialog_title)
+        val desc = dialogLayout?.findViewById<TextView>(R.id.tv_dialog_desc)
+        val image = dialogLayout?.findViewById<ImageView>(R.id.iv_face_guide)
+        val buttonAddFace = dialogLayout?.findViewById<MaterialButton>(R.id.btn_start_add)
+
+
+        context?.let {
+            addFaceDialog = MaterialAlertDialogBuilder(it).run {
+                setView(dialogLayout)
+                title?.text = resources.getString(R.string.add_face_title_1)
+                desc?.text = resources.getString(R.string.add_face_parallel)
+                image?.setImageResource(R.drawable.wajah_depan)
+                create()
+            }
+            addFaceDialog?.setOnShowListener {
+                buttonAddFace?.setOnClickListener {
+                    intentAddPerson()
+                }
+            }
+            addFaceDialog?.show()
+        }
     }
 
     override fun checkVersionResponse(response: ModelsCheckResponse) {

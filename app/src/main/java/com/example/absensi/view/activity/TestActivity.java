@@ -21,6 +21,9 @@ import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +34,8 @@ import ch.zhaw.facerecognitionlibrary.Helpers.PreferencesHelper;
 import ch.zhaw.facerecognitionlibrary.PreProcessor.PreProcessorFactory;
 import ch.zhaw.facerecognitionlibrary.Recognition.Recognition;
 import ch.zhaw.facerecognitionlibrary.Recognition.RecognitionFactory;
+
+import static ch.zhaw.facerecognitionlibrary.Helpers.FileHelper.RESULTS_PATH;
 
 public class TestActivity extends AppCompatActivity {
     private static final String TAG = "Test";
@@ -156,13 +161,26 @@ public class TestActivity extends AppCompatActivity {
                         long duration = time_end.getTime() - time_start.getTime();
                         int durationPerImage = (int) duration / total;
 //                        int durationPerImage = 0;
-                        double accuracy = (double) matches / (double) total;
+                        int TP = matches;
+                        int TN = persons.length * 6;
+                        int FP = total - matches;
+                        int FN = persons.length * 6 - total;
+                        Log.d("TP", String.valueOf(TP));
+                        Log.d("TN", String.valueOf(TN));
+                        Log.d("FP", String.valueOf(FP));
+                        Log.d("FN", String.valueOf(FN));
+                        Log.d("matches", String.valueOf(matches));
+                        Log.d("total", String.valueOf(total));
+                        double accuracy = ((double) TP + (double) TN) / ((double) TP + (double) TN + (double) FN + (double) FP);
+//                        double accuracy = (double) matches / (double) total;
+                        double precision = ((double) TP) / ((double) TP + (double) FP);
+                        double recall = ((double) TP) / ((double) TP + (double) FN);
                         double accuracy_reference = (double) matches_reference / (double) total_reference;
                         double accuracy_deviation = (double) matches_deviation / (double) total_deviation;
                         double robustness = accuracy_deviation / accuracy_reference;
                         Log.d(TAG, "accuracy" + String.valueOf(accuracy));
                         Map<String, ?> printMap = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getAll();
-                        fileHelper.saveResultsToFile(printMap, accuracy, accuracy_reference, accuracy_deviation, robustness, durationPerImage, results);
+                        saveResultsToFile(printMap, accuracy, accuracy_reference, accuracy_deviation, robustness, durationPerImage, results, precision, recall);
                         rec.saveTestData();
 
                         final Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -193,5 +211,35 @@ public class TestActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         thread.interrupt();
+    }
+
+    public void saveResultsToFile(Map<String, ?> map, double accuracy, double accuracy_reference, double accuracy_deviation, double robustness, int duration, List<String> results, double precision, double recall){
+        String timestamp = new SimpleDateFormat("ddMMyyyyHHmm").format(new java.util.Date());
+        createFolderIfNotExisting(RESULTS_PATH);
+        String filepath = RESULTS_PATH + "Accuracy_" + String.format("%.2f", accuracy * 100) + "_" + timestamp + ".txt";
+        try {
+            FileWriter fw = new FileWriter(filepath);
+            for (Map.Entry entry : map.entrySet()){
+                fw.append(entry.getKey() + ": " + entry.getValue() + "\n");
+            }
+            fw.append("Accuracy: " + accuracy * 100 + "%\n");
+            fw.append("Precision: " +precision * 100 + "%\n");
+            fw.append("Recall: " +recall * 100 + "%\n");
+            fw.append("Accuracy reference: " + accuracy_reference * 100 + "%\n");
+            fw.append("Accuracy deviation: " + accuracy_deviation * 100 + "%\n");
+            fw.append("Robustness: " + robustness * 100 + "%\n");
+            fw.append("Duration per image: " + duration + "ms\n");
+            for (String result : results){
+                fw.append(result + "\n");
+            }
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createFolderIfNotExisting(String path){
+        File folder = new File(path);
+        folder.mkdir();
     }
 }

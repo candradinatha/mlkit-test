@@ -25,6 +25,8 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.example.absensi.R;
+import com.example.absensi.common.Constants;
+import com.example.absensi.common.Preferences;
 import com.example.absensi.view.activity.TrainingActivity;
 
 import org.opencv.android.CameraBridgeViewBase;
@@ -63,6 +65,7 @@ public class AddPersonPreviewActivity extends Activity implements CameraBridgeVi
     private boolean front_camera;
     private boolean night_portrait;
     private int exposure_compensation;
+    private Preferences preferences;
 
     static {
         if (!OpenCVLoader.initDebug()) {
@@ -76,6 +79,7 @@ public class AddPersonPreviewActivity extends Activity implements CameraBridgeVi
         setContentView(R.layout.activity_add_person_preview);
 
         Intent intent = getIntent();
+        preferences = new Preferences(this);
         folder = intent.getStringExtra("Folder");
         if(folder.equals("Test")){
             subfolder = intent.getStringExtra("Subfolder");
@@ -85,7 +89,17 @@ public class AddPersonPreviewActivity extends Activity implements CameraBridgeVi
         capturePressed = false;
 
         fh = new FileHelper();
-        total = 0;
+        if (preferences.getAddFaceStep() == Constants.ADD_FACE_STEP_1) {
+            total = 0;
+            numberOfPictures = 10;
+        } else if (preferences.getAddFaceStep() == Constants.ADD_FACE_STEP_2) {
+            total = 10;
+            numberOfPictures = 20;
+        } else {
+            total = 20;
+            numberOfPictures = 30;
+        }
+
         lastTime = new Date().getTime();
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -97,7 +111,6 @@ public class AddPersonPreviewActivity extends Activity implements CameraBridgeVi
         front_camera = sharedPref.getBoolean("key_front_camera", true);
 
 //        numberOfPictures = Integer.valueOf(sharedPref.getString("key_numberOfPictures", "100"));
-        numberOfPictures = 10;
 
         night_portrait = sharedPref.getBoolean("key_night_portrait", false);
         exposure_compensation = Integer.valueOf(sharedPref.getString("key_exposure_compensation", "50"));
@@ -177,6 +190,8 @@ public class AddPersonPreviewActivity extends Activity implements CameraBridgeVi
 //                                Intent intent = new Intent(getApplicationContext(), TrainingActivity.class);
 //                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //                                startActivity(intent);
+                                int step = preferences.getAddFaceStep();
+                                preferences.setAddFaceStep(step+1);
                                 finish();
                             }
                             capturePressed = false;

@@ -8,11 +8,12 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.absensi.R
 import com.example.absensi.common.*
 import com.example.absensi.model.Chart
+import com.example.absensi.model.attendance.month.MonthAttendanceData
+import com.example.absensi.model.attendance.month.MonthAttendanceResponse
 import com.example.absensi.model.attendance.today.TodayAttendanceData
 import com.example.absensi.model.attendance.today.TodayAttendanceResponse
 import com.example.absensi.model.auth.UserDataRealm
@@ -20,11 +21,11 @@ import com.example.absensi.presenter.AttendanceContract
 import com.example.absensi.presenter.AttendancePresenter
 import com.example.absensi.presenter.BaseContract
 import com.example.absensi.view.BaseActivity
-import com.example.absensi.view.DetectionActivity
-import com.example.absensi.view.FaceDetectionActivity
 import com.example.absensi.view.activity.RecognitionActivity
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import io.realm.Realm
@@ -70,7 +71,6 @@ class HomeFragment : BaseFragment(), AttendanceContract.View, BaseContract.View 
         toolbar_title.text = getString(R.string.home_toolbar_title)
 
         userData = getUserData()
-        initChart()
         initLineChart(line_chart)
         btn_check_in_out.setOnClickListener {
             with(Intent(context, RecognitionActivity::class.java)) {
@@ -127,43 +127,17 @@ class HomeFragment : BaseFragment(), AttendanceContract.View, BaseContract.View 
         showToast( message?: title)
     }
 
+    override fun getThisMonthAttendance(response: MonthAttendanceResponse) {
+        isLoading(false)
+        if (response.data != null )
+            setChartData(line_chart, response.data)
+    }
+
     override fun checkInResponse(response: TodayAttendanceResponse) = Unit
     override fun checkOutResponse(response: TodayAttendanceResponse) = Unit
 
 
     // local function
-
-    private fun initChart() {
-        val present = 8
-        val absent = 0
-        val late = 2
-        // pie chart config
-        val chartData = arrayListOf<PieEntry>()
-        chartData.add(PieEntry(absent.toFloat(), "Absent"))
-        chartData.add(PieEntry(present.toFloat(), "Present"))
-        chartData.add(PieEntry(late.toFloat(), "Late"))
-
-        val chartColors = arrayListOf<Int>()
-        chartColors.add(ContextCompat.getColor(context!!, R.color.alert_text_color))
-        chartColors.add(ContextCompat.getColor(context!!, R.color.colorPrimary))
-        chartColors.add(ContextCompat.getColor(context!!, R.color.color_yellow_stamp))
-
-        val dataSet = PieDataSet(chartData, "")
-        dataSet.colors = chartColors
-        val pieData  = PieData(dataSet)
-
-        chart_months_attendance.description.isEnabled = false
-        chart_months_attendance.setDrawEntryLabels(false)
-        chart_months_attendance.legend.isEnabled = false
-        chart_months_attendance.data = pieData
-
-
-        // chart details
-        tv_months_present.text = present.toString()
-        tv_months_absent.text = absent.toString()
-        tv_months_late.text = late.toString()
-
-    }
 
     private fun getUserData(): UserDataRealm? {
         return realm.where(UserDataRealm::class.java).findFirst()
@@ -212,6 +186,7 @@ class HomeFragment : BaseFragment(), AttendanceContract.View, BaseContract.View 
     private fun getTodayAttendance(){
         isLoading(true)
         presenter.getTodayAttendance()
+        presenter.getThisMonthAttendance()
     }
 
     private fun isLoading(isLoading: Boolean) {
@@ -259,7 +234,6 @@ class HomeFragment : BaseFragment(), AttendanceContract.View, BaseContract.View 
     fun initLineChart(view: LineChart) {
         view.axisRight.isEnabled = false
         view.setBackgroundColor(Color.TRANSPARENT)
-        view.legend.isEnabled = false
         view.setTouchEnabled(true)
         view.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {}
@@ -272,7 +246,7 @@ class HomeFragment : BaseFragment(), AttendanceContract.View, BaseContract.View 
         xAxis?.enableGridDashedLine(10f, 10f, 10f)
         yAxis?.run {
             enableGridDashedLine(10f, 10f, 10f)
-            axisMaximum = 23f
+            axisMaximum = 24f
             axisMinimum = 0f
         }
 
@@ -280,6 +254,15 @@ class HomeFragment : BaseFragment(), AttendanceContract.View, BaseContract.View 
         yAxis?.setDrawLimitLinesBehindData(true)
         xAxis?.setDrawLimitLinesBehindData(true)
 
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+
+        // prevent duplicated axis label
+        xAxis.isGranularityEnabled = true
+        xAxis.granularity = 1f
+
+
+        // rotate axis label
+        xAxis.labelRotationAngle = -45f
         // add limit lines
 //        yAxis?.addLimitLine(ll1);
 //        yAxis?.addLimitLine(ll2);
@@ -288,29 +271,130 @@ class HomeFragment : BaseFragment(), AttendanceContract.View, BaseContract.View 
 
         xAxis.mLabelHeight = ViewGroup.LayoutParams.WRAP_CONTENT
 
-        setChartData(view)
+//        setChartData(view)
     }
 
-    fun setChartData(view: LineChart) {
-        val data = Chart(23)
-        val values = arrayListOf<Entry>()
-        data.list.forEachIndexed { index, it ->
-            values.add(Entry(index.toFloat(), it.toFloat()))
+    private fun setChartData(view: LineChart?, attendanceData: MonthAttendanceData) {
+        val dataSetList = arrayListOf<LineDataSet>()
+        val checkInDataSet = arrayListOf<Entry>()
+        val checkOutDataSet = arrayListOf<Entry>()
+        val xAxisLabel = arrayListOf<String>()
+        val present = attendanceData.present ?: 0
+        val absent = attendanceData.absent ?: 0
+        val late = attendanceData.late ?: 0
+        val startTimeDataSet = arrayListOf<Entry>()
+        val endTimeDataSet = arrayListOf<Entry>()
+
+        // chart details
+        tv_months_present?.text = present.toString()
+        tv_months_absent?.text = absent.toString()
+        tv_months_late?.text = late.toString()
+
+
+        // pie chart config
+        val chartData = arrayListOf<PieEntry>()
+        chartData.add(PieEntry(absent.toFloat(), "Absent"))
+        chartData.add(PieEntry(present.toFloat(), "Present"))
+        chartData.add(PieEntry(late.toFloat(), "Late"))
+
+        val chartColors = arrayListOf<Int>()
+        chartColors.add(ContextCompat.getColor(context!!, R.color.alert_text_color))
+        chartColors.add(ContextCompat.getColor(context!!, R.color.colorPrimary))
+        chartColors.add(ContextCompat.getColor(context!!, R.color.color_yellow_stamp))
+
+        val dataSet = PieDataSet(chartData, "")
+        dataSet.colors = chartColors
+        val pieData  = PieData(dataSet)
+
+        chart_months_attendance.description.isEnabled = false
+        chart_months_attendance.setDrawEntryLabels(false)
+        chart_months_attendance.legend.isEnabled = false
+        chart_months_attendance.data = pieData
+        chart_months_attendance?.invalidate()
+
+        // line chart
+        attendanceData.attendances?.forEachIndexed { index, item ->
+            xAxisLabel.add("Day ${index+1}")
+
+            var checkInHour = "0"
+            var checkInMin = "0"
+            var checkOutHour = "0"
+            var checkOutMin = "0"
+
+            val workingTimeFormat = "HH:mm:ss"
+            var startHour = Utilities.changeDateFormat(attendanceData.startWorkingHour, workingTimeFormat, "HH", context!!)
+            var startMin = Utilities.changeDateFormat(attendanceData.startWorkingHour, workingTimeFormat, "mm", context!!)
+            var endHour = Utilities.changeDateFormat(attendanceData.endWorkingHour, workingTimeFormat, "HH", context!!)
+            var endMin = Utilities.changeDateFormat(attendanceData.endWorkingHour, workingTimeFormat, "mm", context!!)
+            if (item.checkInAt != null) {
+                checkInHour = Utilities.changeDateFormat(item.checkInAt, Constants.API_DATE_FORMAT, "HH", context!!)
+                checkInMin = Utilities.changeDateFormat(item.checkInAt, Constants.API_DATE_FORMAT, "mm", context!!)
+            }
+            if (item.checkOutAt != null) {
+                checkOutHour = Utilities.changeDateFormat(item.checkOutAt, Constants.API_DATE_FORMAT, "HH", context!!)
+                checkOutMin = Utilities.changeDateFormat(item.checkOutAt, Constants.API_DATE_FORMAT, "mm", context!!)
+            }
+            checkInDataSet.add(
+                Entry(
+                    index.toFloat(),
+                    ("$checkInHour.${checkInMin}").toFloat(),
+                    item
+                )
+            )
+            checkOutDataSet.add(
+                Entry(
+                    index.toFloat(),
+                    ("$checkOutHour.${checkOutMin}").toFloat(),
+                    item
+                )
+            )
+            startTimeDataSet.add(
+                Entry(
+                    index.toFloat(),
+                    ("$startHour.${startMin}").toFloat(),
+                    item
+                )
+            )
+            endTimeDataSet.add(
+                Entry(
+                    index.toFloat(),
+                    ("$endHour.${endMin}").toFloat(),
+                    item
+                )
+            )
         }
 
-        val lineDataSet = LineDataSet(values, "Data")
-        lineDataSet.run {
-            setDrawIcons(false)
-            color = resources.getColor(R.color.colorPrimary)
-            circleColors = arrayListOf(R.color.colorPrimaryVariant)
-            valueTextSize = 10f
-            lineWidth = 1f
-            circleRadius = 3f
-            setDrawCircleHole(false)
+        dataSetList.add(LineDataSet(checkInDataSet, "Check In"))
+        dataSetList.add(LineDataSet(checkOutDataSet, "Check Out"))
+//        dataSetList.add(LineDataSet(startTimeDataSet, "Start of Work Hour"))
+//        dataSetList.add(LineDataSet(endTimeDataSet, "End of Work Hour"))
+        view?.xAxis?.valueFormatter = IndexAxisValueFormatter(xAxisLabel)
+        dataSetList.forEachIndexed { index, it ->
+            it.run {
+                setDrawIcons(false)
+                valueTextSize = 10f
+                lineWidth = 2f
+                circleRadius = 3f
+                color =
+                    if (index == 0)
+                        ContextCompat.getColor(context!!, R.color.color_yellow_stamp)
+                    else if (index == 2 || index ==3)
+                        ContextCompat.getColor(context!!, R.color.alert_text_color)
+                    else
+                        ContextCompat.getColor(context!!, R.color.colorSecondaryVariant)
+                circleColors = arrayListOf(R.color.colorPrimaryVariant)
+                setDrawCircleHole(false)
+            }
         }
+        // prevent legend from being cut off
+        view?.legend?.isWordWrapEnabled = true
 
-        val lineData = LineData(listOf(lineDataSet))
+        val lineData = LineData(dataSetList as List<LineDataSet>)
+        view?.data = lineData
+        val mv = AttendMarkerView(context, R.layout.layout_chart_marker, view)
+        view?.marker = mv
+        view?.invalidate()
 
-        view.data = lineData
     }
+
 }

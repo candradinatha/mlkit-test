@@ -12,7 +12,7 @@ object Constants {
     // const val DEBUG_DOMAIN = "192.168.100:8000"
 
     //oppo ip address macbook
-    const val DEBUG_DOMAIN = "006a8d708f47.ngrok.io"
+    const val DEBUG_DOMAIN = "8a7b1fedc685.ngrok.io"
 
     const val SERVER_PATH = "api"
     const val ACTIVITY_MAIN = "activity_main"
@@ -67,6 +67,7 @@ object Constants {
     const val API_ACTION_ATTENDANCE = "attendance"
     const val API_ACTION_ATTENDANCE_INSTANT = "attendance-instant"
     const val API_ACTION_ATTENDANCE_TODAY = "today"
+    const val API_ACTION_ATTENDANCE_THIS_MONTH = "monthly"
     const val API_ACTION_ATTENDANCE_IN = "check-in"
     const val API_ACTION_ATTENDANCE_OUT = "check-out"
 
@@ -83,5 +84,9 @@ object Constants {
     const val FILE_NAME_SVM_TRAIN_MODEL = "svm_train_model"
     const val FILE_NAME_SVM_TRAIN_LABEL = "labelMap_train"
     const val FILE_NAME_VERSION = "version.json"
+
+    const val ADD_FACE_STEP_1 = 1
+    const val ADD_FACE_STEP_2 = 2
+    const val ADD_FACE_STEP_3 = 3
 
 }

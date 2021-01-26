@@ -133,6 +133,21 @@ open class BaseActivity: AppCompatActivity(), BaseContract.View {
         )
     }
 
+    fun addFaceSuccessDialog() {
+        showAlertDialog(
+            SweetAlertDialog.SUCCESS_TYPE,
+            null,
+            getString(R.string.face_added_successfully),
+            getString(R.string.dialog_ok),
+            null,
+            {
+                it.dismissWithAnimation()
+            },
+            null
+
+        )
+    }
+
     fun modelIsUpToDate() {
         showAlertDialog(
             SweetAlertDialog.SUCCESS_TYPE,

@@ -14,6 +14,7 @@ class Preferences(context: Context) {
     private val IS_FETCH_RECYCLER_LIST = "is_fetch_recycler_list"
     private val AFTER_CHECK_IN_SUCCESS = "after_check_in"
     private val AFTER_CHECK_OUT_SUCCESS = "after_check_out"
+    private val ADD_FACE_STEP = "add_face_step"
 
     init {
         sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE)
@@ -61,4 +62,8 @@ class Preferences(context: Context) {
     var afterCheckOutSuccess: Boolean
         set(value) = editor.putBoolean(AFTER_CHECK_OUT_SUCCESS, value).apply()
         get() = sharedPreferences.getBoolean(AFTER_CHECK_OUT_SUCCESS, false)
+
+    var addFaceStep : Int
+        set(value) = editor.putInt(ADD_FACE_STEP, value).apply()
+        get() = sharedPreferences.getInt(ADD_FACE_STEP, Constants.ADD_FACE_STEP_1)
 }

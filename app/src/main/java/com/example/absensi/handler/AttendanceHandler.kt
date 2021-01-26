@@ -1,5 +1,6 @@
 package com.example.absensi.handler
 
+import com.example.absensi.model.attendance.month.MonthAttendanceResponse
 import com.example.absensi.model.attendance.today.TodayAttendanceResponse
 import com.example.absensi.presenter.AttendanceContract
 import io.reactivex.Observable
@@ -22,5 +23,9 @@ class AttendanceHandler: BaseHandler() {
 
     fun getTodayInstantAttendance(label: String): Observable<TodayAttendanceResponse> {
         return service.getTodayInstantAttendance(label)
+    }
+
+    fun getThisMonthAttendance(): Observable<MonthAttendanceResponse> {
+        return service.getThisMonthAttendance()
     }
 }

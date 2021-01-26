@@ -20,6 +20,7 @@ import ch.zhaw.facerecognitionlibrary.Recognition.RecognitionFactory
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.absensi.R
 import com.example.absensi.common.*
+import com.example.absensi.model.attendance.month.MonthAttendanceResponse
 import com.example.absensi.model.attendance.today.TodayAttendanceResponse
 import com.example.absensi.model.auth.UserDataRealm
 import com.example.absensi.presenter.*
@@ -251,6 +252,8 @@ class RecognitionActivity : BaseActivity(), CvCameraViewListener2, AttendanceCon
         checkInOrOut(response.data?.id ?: 0)
     }
 
+    override fun getThisMonthAttendance(response: MonthAttendanceResponse) {
+    }
     // endregion
 
     // region function

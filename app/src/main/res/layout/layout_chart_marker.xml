@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="150dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="@dimen/dp0"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp4"
+        app:cardElevation="@dimen/dp16"
+        app:strokeColor="@color/colorSecondary"
+        app:strokeWidth="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp4">
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:layout_margin="@dimen/dp4"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/tv_check_in"
+                android:textAlignment="center"
+                android:textColor="@color/colorSecondary"/>
+
+            <TextView
+                android:id="@+id/tv_check_in"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:layout_marginTop="@dimen/app_margin"
+                android:layout_marginStart="@dimen/dp4"
+                android:layout_marginEnd="@dimen/dp4"
+                app:layout_constraintTop_toBottomOf="@+id/tv_date"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/check_in"
+                android:textColor="@color/color_grey_primary"
+                android:text="Check in at"
+                android:singleLine="true"/>
+
+            <TextView
+                android:id="@+id/check_in"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp12"
+                android:textStyle="bold"
+                android:layout_marginStart="@dimen/dp4"
+                android:textAlignment="center"
+                android:layout_marginEnd="@dimen/dp4"
+                app:layout_constraintTop_toTopOf="@+id/tv_check_in"
+                app:layout_constraintStart_toEndOf="@id/tv_check_in"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/tv_check_in"
+                android:textColor="@color/colorPrimary"/>
+
+
+            <TextView
+                android:id="@+id/tv_check_out"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:layout_marginTop="@dimen/half_app_margin"
+                android:layout_marginStart="@dimen/dp4"
+                android:layout_marginEnd="@dimen/dp4"
+                app:layout_constraintTop_toBottomOf="@+id/tv_check_in"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/check_out"
+                android:textColor="@color/color_grey_primary"
+                android:text="Check out at"
+                android:singleLine="true"/>
+
+            <TextView
+                android:id="@+id/check_out"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp12"
+                android:textStyle="bold"
+                android:layout_marginStart="@dimen/dp4"
+                android:layout_marginEnd="@dimen/dp4"
+                app:layout_constraintTop_toTopOf="@+id/tv_check_out"
+                app:layout_constraintStart_toEndOf="@id/tv_check_out"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/tv_check_out"
+                android:textColor="@color/colorPrimary"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

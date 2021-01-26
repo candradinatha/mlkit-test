@@ -2,6 +2,7 @@ package com.example.absensi.presenter
 
 import com.example.absensi.handler.AttendanceHandler
 import com.example.absensi.handler.ErrorHandler
+import com.example.absensi.model.attendance.month.MonthAttendanceResponse
 import com.example.absensi.model.attendance.today.TodayAttendanceResponse
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -51,6 +52,17 @@ class AttendancePresenter(val view: AttendanceContract.View, val baseView: BaseC
             .subscribe(object : ErrorHandler<TodayAttendanceResponse>(basePresenter) {
                 override fun onNext(t: TodayAttendanceResponse) {
                     view.getTodayAttendance(t)
+                }
+            })
+    }
+
+    override fun getThisMonthAttendance() {
+        handler.getThisMonthAttendance()
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : ErrorHandler<MonthAttendanceResponse>(basePresenter) {
+                override fun onNext(t: MonthAttendanceResponse) {
+                    view.getThisMonthAttendance(t)
                 }
             })
     }

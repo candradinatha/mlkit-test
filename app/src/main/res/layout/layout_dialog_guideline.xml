@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/tv_dialog_title"
+        style="@style/AppTheme.MediumText"
+        android:layout_width="@dimen/dp0"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tool:text="@string/add_face_title_1"
+        android:layout_marginTop="@dimen/app_margin"
+        android:layout_marginHorizontal="@dimen/app_margin"
+        android:textSize="@dimen/sp20"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_dialog_desc"
+        android:layout_width="@dimen/dp0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/app_margin"
+        android:layout_marginHorizontal="@dimen/app_margin"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/tv_dialog_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tool:text="@string/add_face_parallel"
+        />
+
+    <ImageView
+        android:id="@+id/iv_face_guide"
+        android:layout_width="@dimen/dp0"
+        android:layout_height="@dimen/dp0"
+        android:layout_marginTop="@dimen/app_margin"
+        tool:src="@drawable/wajah_depan"
+        app:layout_constraintWidth_percent="0.6"
+        app:layout_constraintTop_toBottomOf="@id/tv_dialog_desc"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintDimensionRatio="H, 2:3"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_start_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/app_margin"
+        android:text="@string/start_capture"
+        app:layout_constraintTop_toBottomOf="@id/iv_face_guide"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

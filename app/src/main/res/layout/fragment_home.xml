@@ -359,7 +359,7 @@
                         <com.github.mikephil.charting.charts.LineChart
                             android:id="@+id/line_chart"
                             android:layout_width="@dimen/dp0"
-                            android:layout_height="150dp"
+                            android:layout_height="200dp"
                             android:layout_margin="@dimen/half_app_margin"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
